@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_restful import Resource, reqparse, Api
-from flask_cors import CORS
 from Overlay import Overalay
 from Overlays import Overalays
 from Shape import Shape
