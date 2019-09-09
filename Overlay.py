@@ -10,7 +10,7 @@ class Overalay(Resource):
         if os.path.exists(filename):
             with open(filename) as json_file:
                 data = json.load(json_file)
-            return data, 200
+            return data, {'Access-Control-Allow-Origin': '*'}
         else:
             return "overlay not found", 404
 

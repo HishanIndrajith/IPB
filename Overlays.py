@@ -15,7 +15,7 @@ class Overalays(Resource):
                     with open(os.path.join(r, file)) as json_file:
                         data = json.load(json_file)
                         overlays.append(data)
-        return overlays, 200
+        return overlays, {'Access-Control-Allow-Origin': '*'}
 
     # def post(self):
     #     parser = reqparse.RequestParser()

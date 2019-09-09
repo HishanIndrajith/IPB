@@ -4,6 +4,7 @@ from flask_cors import CORS
 from Overlay import Overalay
 from Overlays import Overalays
 from Shape import Shape
+from flask_cors import CORS
 
 TGS = Flask(__name__)
 api = Api(TGS)
