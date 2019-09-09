@@ -68,7 +68,7 @@ function loadOverlays() {
             controller.addTo(map);
         }
     };
-    xhttp.open("GET", "http://127.0.0.1:8080/overlays", true);
+    xhttp.open("GET", "http://127.0.0.1:8082/overlays", true);
     xhttp.send();
 }
 
@@ -149,7 +149,7 @@ function saveShape() {
             location.reload();
         }
     };
-    xhttp.open("POST", "http://127.0.0.1:8080/overlays/" + overlaySelected.name, true);
+    xhttp.open("POST", "http://127.0.0.1:8082/overlays/" + overlaySelected.name, true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(propertyJson);
 }
