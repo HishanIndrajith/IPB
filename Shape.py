@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse, Api
+from flask_restful import Resource, reqparse, Api, request
 import json
 import os
 import ast
@@ -7,6 +7,7 @@ import ast
 class Shape(Resource):
 
     def post(self):
+        battlefield = request.args.get('battlefield')
         parser = reqparse.RequestParser()
         parser.add_argument("name")
         parser.add_argument("properties")
@@ -15,7 +16,7 @@ class Shape(Resource):
         args = parser.parse_args()
 
         name = args["name"]
-        filename = 'overlays\\' + name + '.json'
+        filename = 'battlefields\\' + battlefield + '\\' + name + '.json'
         if not os.path.exists(filename):
             overlay = {
                 "name": name,
@@ -23,20 +24,21 @@ class Shape(Resource):
                 "type": args["type"],
                 "features": args["features"]
             }
-            with open('overlays\\'+name+'.json', 'w') as outfile:
+            with open(filename, 'w') as outfile:
                 json.dump(overlay, outfile)
             return overlay, 201
         else:
             return "overlay already exists", 409
 
     def put(self, name):
+        battlefield = request.args.get('battlefield')
         parser = reqparse.RequestParser()
         parser.add_argument("properties")
         parser.add_argument("type")
         parser.add_argument("features")
         args = parser.parse_args()
 
-        filename = 'overlays\\' + name + '.json'
+        filename = 'battlefields\\' + battlefield + '\\' + name + '.json'
         if os.path.exists(filename):
             overlay = {
                 "name": name,
@@ -44,7 +46,7 @@ class Shape(Resource):
                 "type": args["type"],
                 "features": args["features"]
             }
-            with open('overlays\\' + name + '.json', 'w') as outfile:
+            with open(filename, 'w') as outfile:
                 json.dump(overlay, outfile)
             return overlay, 201
         else:

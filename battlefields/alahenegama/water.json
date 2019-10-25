@@ -1,0 +1,56 @@
+{
+  "name": "water",
+  "properties": {
+    "style_factor": "status",
+    "style_type": "solid",
+    "types": [
+      "river or canal",
+      "water body"
+    ],
+    "answers_options": [
+      {
+        "name": "maximum depth",
+        "type": "water body",
+        "options": [
+          "less than 5 feets",
+          "between 5 and 10 feets",
+          "more than 10 feets",
+          "No Idea"
+        ]
+      },
+      {
+        "name": "average width",
+        "type": "river or canal",
+        "options": [
+          "less than 5 meters",
+          "between 5 - 10 meters",
+          "between 10 - 20 meters",
+          "more than 20 meters"
+        ]
+      }
+    ],
+    "answers_direct": [],
+    "styles": {
+      "enemy": {
+        "stroke": true,
+        "color": "red",
+        "weight": 3,
+        "opacity": 1
+      },
+      "friendly": {
+        "stroke": true,
+        "color": "green",
+        "weight": 3,
+        "opacity": 1
+      },
+      "neutral": {
+        "stroke": true,
+        "color": "orange",
+        "weight": 3,
+        "opacity": 1
+      }
+    }
+  },
+  "type": "FeatureCollection",
+  "features": []
+}

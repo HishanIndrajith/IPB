@@ -1,0 +1,26 @@
+{
+    "style_factor": "ntlclass",
+    "style_type": "solid",
+    "types": [],
+    "answers_options": [
+      {
+        "name": "ntlclass",
+        "type": null,
+        "options": [
+          "tertiary",
+          "less than 10",
+          "more than 10",
+          "No Idea"
+        ]
+      }
+    ],
+    "answers_direct": [],
+    "styles": {
+      "tertiary": {
+        "stroke": true,
+        "color": "green",
+        "weight": 3,
+        "opacity": 0.5
+      }
+    }
+  }
