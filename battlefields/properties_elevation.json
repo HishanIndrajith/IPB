@@ -1,0 +1,20 @@
+{
+    "style_factor": "elevation",
+    "style_type": "solid",
+    "types": [],
+    "answers_options": [],
+    "answers_direct": [
+      {
+        "name": "elevation",
+        "type": "number"
+      }
+    ],
+    "styles": {
+      "500": {
+        "stroke": true,
+        "color": "green",
+        "weight": 3,
+        "opacity": 0.1
+      }
+    }
+  }

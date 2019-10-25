@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse, Api
+from flask_restful import Resource, reqparse, Api, request
 import json
 import os
 import ast
@@ -6,7 +6,8 @@ import ast
 
 class Overalay(Resource):
     def get(self, name):
-        filename = 'overlays\\' + name + '.json'
+        battlefield = request.args.get('battlefield')
+        filename = 'battlefields\\' + battlefield + '\\' + name + '.json'
         if os.path.exists(filename):
             with open(filename) as json_file:
                 data = json.load(json_file)
@@ -20,7 +21,8 @@ class Overalay(Resource):
         parser.add_argument("properties")
         parser.add_argument("geometry")
         args = parser.parse_args()
-        filename = 'overlays\\' + name + '.json'
+        battlefield = request.args.get('battlefield')
+        filename = 'battlefields\\' + battlefield + '\\' + name + '.json'
         if os.path.exists(filename):
             shape = {
                 "type": args["type"],
@@ -33,7 +35,7 @@ class Overalay(Resource):
                 shape_list = data['features']
                 print(len(shape_list))
                 shape_list.append(shape)
-            with open('overlays\\'+name+'.json', 'w') as outfile:
+            with open(filename, 'w') as outfile:
                 with open(filename) as json_file:
                     json.dump(data, outfile)
             print(data)
