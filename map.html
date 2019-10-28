@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://teastman.github.io/Leaflet.pattern/leaflet.pattern.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet"
+          href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+
+    <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+
+</head>
+<body>
+
+<!--<nav style="height: 7%; margin-bottom: 0px" class="navbar navbar-inverse">-->
+<!--    <div class="container-fluid">-->
+<!--        <div class="navbar-header">-->
+<!--            <a class="navbar-brand">-->
+<!--                <img src="logo.png" width="20" height="20" alt="">-->
+<!--                IPB Visual Tool-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <ul class="nav navbar-nav">-->
+<!--            <li class="active"><a href="#">Map</a></li>-->
+<!--            <li><a href="#">New Location</a></li>-->
+<!--            <li><a href="#">Available Locations</a></li>-->
+<!--        </ul>-->
+<!--        <ul class="nav navbar-nav navbar-right">-->
+<!--            <li><a href="#">Admin</a></li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<!--<div style="height: 93%; width: 100%; top: 0px; padding-top: 0px">-->
+<div class="folium-map" id="map"></div>
+<!--</div>-->
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelHeading"></h5>
+            </div>
+            <div class="modal-body">
+                <form id="popup-body">
+
+                </form>
+            </div>
+            <div class="modal-footer" id="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="js/scripts.js"></script>
