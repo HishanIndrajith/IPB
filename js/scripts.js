@@ -1,5 +1,4 @@
-
-var battlefield = 'faculty4';
+battlefield = getUrlVars()["battlefield"];
 // map initializing
 var map = L.map(
     "map",
@@ -11,6 +10,7 @@ var map = L.map(
         preferCanvas: false,
     }
 );
+
 // loaded overlays will be stored here
 var overlays = {}
 // boolean to store whether the modal to add properties (popup1) was not closed. To ignore popup closed event.
@@ -21,9 +21,27 @@ var lastDrawnShape;
 var overlaySelected;
 
 // load the overlays
+
 loadOverlays();
 // load the tool box for drawing shapes
 loadDrawerToolBox();
+// setMapbounds();
+setMapbounds();
+
+function setMapbounds() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            bounds = JSON.parse(this.responseText);
+            map.fitBounds([
+                [bounds.top, bounds.left],
+                [bounds.bottom, bounds.right]
+            ]);
+        }
+    };
+    xhttp.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield, true);
+    xhttp.send();
+}
 
 function loadOverlays() {
     // send XHR GET request to overlays endpoint to get all overlays.
@@ -46,7 +64,7 @@ function loadOverlays() {
                 }
             ).addTo(map);
 
-             var sateliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            var sateliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                 attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
             });
 
@@ -54,7 +72,7 @@ function loadOverlays() {
             var layer_control = {
                 base_layers: {
                     "openstreetmap": openstreetmap,
-                    "satellite map" : sateliteMap
+                    "satellite map": sateliteMap
                 },
                 overlays: {},
             };
@@ -62,7 +80,7 @@ function loadOverlays() {
             for (i in overlays) {
                 var overlay = overlays[i];
                 var geojson = L.geoJSON(overlay);
-geojson.setStyle({color: 'red', "fillOpacity": 0})
+                geojson.setStyle({color: 'red', "fillOpacity": 0})
                 // geojson.setStyle(function(feature) {
                 //    var style_type = overlay.properties.style_type;
                 //    if(style_type === 'solid'){
@@ -91,7 +109,7 @@ geojson.setStyle({color: 'red', "fillOpacity": 0})
             controller.addTo(map);
         }
     };
-    xhttp.open("GET", "http://127.0.0.1:8082/overlays?battlefield="+battlefield, true);
+    xhttp.open("GET", "http://127.0.0.1:8082/overlays?battlefield=" + battlefield, true);
     xhttp.send();
 }
 
@@ -149,7 +167,7 @@ function showCoordinates(ev) {
     L.drawLocal.draw.handlers.polygon.tooltip.end = coordinates;
 }
 
-function modalNextLevelChooser(){
+function modalNextLevelChooser() {
     // Get selected overlay type
     type = document.getElementById('overlayType').value;
     overlaySelected = overlays[type];
@@ -190,7 +208,7 @@ function saveShape() {
             location.reload();
         }
     };
-    xhttp.open("POST", "http://127.0.0.1:8082/overlays/" + overlaySelected.name + "?battlefield="+battlefield, true);
+    xhttp.open("POST", "http://127.0.0.1:8082/overlays/" + overlaySelected.name + "?battlefield=" + battlefield, true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(propertyJson);
 }
@@ -217,7 +235,7 @@ function modalContentSet(step) {
         // for water overlay
         var overlayTypes = overlaySelected.properties.types;
         var optionElementHTML = "<label>Type</label>" +
-                "<select id=\"shapeType\" class=\"form-control\">";
+            "<select id=\"shapeType\" class=\"form-control\">";
         for (type in overlayTypes) {
             var optionHTML = "<option value=\"" + overlayTypes[type] + "\">" + overlayTypes[type] + "</option>";
             optionElementHTML += optionHTML;
@@ -254,5 +272,12 @@ function modalContentSet(step) {
         modalFooter.innerHTML = " <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>" +
             "<button type=\"button\" class=\"btn btn-primary\" id = \"submitbtn\" onclick=\"saveShape()\">Save</button>";
     }
+}
 
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+        vars[key] = value;
+    });
+    return vars;
 }
