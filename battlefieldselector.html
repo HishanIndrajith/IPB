@@ -1,0 +1,180 @@
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-54392712-6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-54392712-6');
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="css/fontello.css"/>
+    <meta charset="utf-8">
+    <script src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'></script>
+    <script src="lib/leaflet-hash.js"></script>
+    <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+    <script src="https://d3js.org/d3-request.v1.min.js"></script>
+    <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+    <script src="js/jscolor.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            font-family: 'Noto Sans', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #111;
+        }
+
+        #wrapper {
+            position: relative;
+        }
+
+        #leftpanel {
+            width: 40%;
+            height: 100%;
+            float: left;
+            background-color: #333333;
+        }
+        #rightpanel {
+            width: 60%;
+            height: 100%;
+            float: left;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #download em {
+            color: #b76868;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        #download .note {
+            width: 85%;
+        }
+
+        .download-button {
+            border: 1px solid #111;
+            border-radius: 3px;
+            margin-top: 20px;
+            cursor: pointer;
+            padding: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+            display: block;
+            font-size: 14px;
+            width: 100px;
+        }
+
+        .download-button:hover {
+            background-color: #eee;
+        }
+
+        #search {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            z-index: 500;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+        }
+
+        #search input {
+            width: 300px;
+            padding: 10px;
+            display: block;
+        }
+
+        #search-results {
+            display: none;
+            width: 300px;
+            background-color: white;
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+        }
+
+        .search-result {
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .search-result:hover, .search-result.highlight {
+            background-color: #eee;
+        }
+
+        #download-geojson {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            z-index: 500;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+        }
+
+
+        #loading {
+            width: 100%;
+            height: 100%;
+            line-height: 100%;
+            position: absolute;
+            z-index: 2000;
+            background-color: rgba(255, 255, 255, .75);
+            font-size: 72px;
+            color: rgb(88, 87, 72);
+            text-align: center;
+            display: none;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+<div id="leftpanel">
+
+</div>
+<div id="rightpanel">
+    <div id='wrapper'>
+        <div id='map'></div>
+
+        <div id="search">
+            <input type="text" placeholder="Search for places..."/>
+            <div id="search-results"></div>
+        </div>
+
+
+            <button class="download-button" id="download-geojson">
+                Next
+            </button>
+    </div>
+</div>
+<div id="loading">Drawing contours...</div>
+<script src='js/contours.js'></script>
+</body>
+</html>
