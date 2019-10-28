@@ -75,7 +75,7 @@ def create_roads_overlay(name, top, left, bottom, right):
             }
             features.append(feature)
     properties = {}
-    with open('battlefields\\properties_elevation.json') as json_file:
+    with open('battlefields\\properties_roads.json') as json_file:
         properties = json.load(json_file)
     json_data = {
         "name": "roads",
