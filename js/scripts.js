@@ -1,4 +1,19 @@
-// map initializing
+
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+
+});
+
+
 var map = L.map(
     "map",
     {
@@ -9,22 +24,15 @@ var map = L.map(
         preferCanvas: false,
     }
 );
-// loaded overlays will be stored here
 var overlays = {}
-// boolean to store whether the modal to add properties (popup1) was not closed. To ignore popup closed event.
 var popup1_not_closed = false;
-// Last drawn shape is stored here
 var lastDrawnShape;
-// ovarlay data of selected overlay type stored here
 var overlaySelected;
 
-// load the overlays
 loadOverlays();
-// load the tool box for drawing shapes
 loadDrawerToolBox();
 
 function loadOverlays() {
-    // send XHR GET request to overlays endpoint to get all overlays.
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -43,32 +51,26 @@ function loadOverlays() {
                     "tms": false
                 }
             ).addTo(map);
-            // initialize the layer control
             var layer_control = {
                 base_layers: {
                     "openstreetmap": tile_layer,
                 },
                 overlays: {},
             };
-            // iterate all overlays
             for (i in overlays) {
                 var geojson = L.geoJSON(overlays[i]);
-                // add overlay to map
                 geojson.addTo(map);
-                // add overlay to layer control
                 layer_control.overlays[overlays[i].name] = geojson;
             }
-            // display layer control
-            var controller = L.control.layers(
+            L.control.layers(
                 layer_control.base_layers,
                 layer_control.overlays,
                 {"autoZIndex": true, "collapsed": false, "position": "topright"}
-            );
-            // geojson.clearLayers();
-            controller.addTo(map);
+            ).addTo(map);
         }
     };
     xhttp.open("GET", "http://127.0.0.1:8082/overlays", true);
+    xhttp.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:63343');
     xhttp.send();
 }
 
@@ -98,10 +100,8 @@ function loadDrawerToolBox() {
         drawnItems.addLayer(layer);
     });
     map.on('draw:created', function (e) {
-        // after drawing finished
         $("#myModal").modal();
         lastDrawnShape = JSON.stringify(layer.toGeoJSON());
-        // first step of popup to get shape properties
         modalContentSet(0);
     });
 
@@ -128,7 +128,6 @@ function saveShape() {
     popup1_not_closed = true;
     var propertyObj = {};
     var propertyListOptions = overlaySelected.properties.answers_options;
-    // get properties collected to a json
     for (property in propertyListOptions) {
         var optionName = propertyListOptions[property].name;
         propertyObj[optionName] = document.getElementById(optionName).value;
@@ -141,17 +140,18 @@ function saveShape() {
     shapeObj = JSON.parse(lastDrawnShape);
     shapeObj.properties = propertyObj;
     var propertyJson = JSON.stringify(shapeObj);
+    console.log(propertyJson);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 201) {
-            // hide popup and reload the folder
-            $("#myModal").modal('hide');
-            location.reload();
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML = this.responseText;
         }
     };
     xhttp.open("POST", "http://127.0.0.1:8082/overlays/" + overlaySelected.name, true);
     xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:63343');
     xhttp.send(propertyJson);
+    $("#myModal").modal('hide');
 }
 
 function modalContentSet(step) {
