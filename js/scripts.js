@@ -81,19 +81,24 @@ function loadOverlays() {
                 var overlay = overlays[i];
                 var geojson = L.geoJSON(overlay);
                 geojson.setStyle({color: 'red', "fillOpacity": 0})
-                // geojson.setStyle(function(feature) {
-                //    var style_type = overlay.properties.style_type;
-                //    if(style_type === 'solid'){
-                //        return overlay.properties.styles[feature.properties[overlay.properties.style_factor]]
-                //    }else{
-                //        //pattern
-                //        var pattern = new L.StripePattern(overlay.properties.styles[feature.properties[overlay.properties.style_factor]].pattern);
-                //        var color = overlay.properties.styles[feature.properties[overlay.properties.style_factor]].color;
-                //        pattern.addTo(map);
-                //        return {fillPattern: pattern , color : color}
-                //    }
-                //
-                // });
+                geojson.setStyle(function(feature) {
+                   var style_type = overlay.properties.style_type;
+                   // if(style_type === 'solid'){
+                   //     return overlay.properties.styles[feature.properties[overlay.properties.style_factor]]
+                   // }else if{
+                   //     //pattern
+                   //     var pattern = new L.StripePattern(overlay.properties.styles[feature.properties[overlay.properties.style_factor]].pattern);
+                   //     var color = overlay.properties.styles[feature.properties[overlay.properties.style_factor]].color;
+                   //     pattern.addTo(map);
+                   //     return {fillPattern: pattern , color : color}
+                   // }else{
+                   //
+                   // }
+                    if(style_type === 'function'){
+                        var opacity = (1/2525)*feature.properties.elevation;
+                        return {color: 'blue', "opacity": opacity,"weight": 1};
+                    }
+                });
                 // add overlay to map
                 geojson.addTo(map);
                 // add overlay to layer control
