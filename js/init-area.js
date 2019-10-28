@@ -61,27 +61,18 @@ map.on(L.Draw.Event.CREATED, function(e) {
                     type = e.layerType;
                 var coords = layer.toGeoJSON();
                 layer.on('click', function() {
-                    alert(coords);
-                    console.log(coords.geometry.coordinates[0]);
-                    console.log(coords.geometry.coordinates[0][0][0]);
-                    var
-                        name = "bf1";
+                    var name = "bf1";
                     // var name = document.getElementById('name').value;
                       var jsonBody = {
-                            "top" : coords.geometry.coordinates[0][0][0],
-                            "left" : coords.geometry.coordinates[0][0][1],
-                            "bottom" : coords.geometry.coordinates[0][2][0],
-                            "right": coords.geometry.coordinates[0][2][1]
+                            "top" : coords.geometry.coordinates[0][1][1],
+                            "left" : coords.geometry.coordinates[0][1][0],
+                            "bottom" : coords.geometry.coordinates[0][3][1],
+                            "right": coords.geometry.coordinates[0][3][0]
                       };
                       console.log(jsonBody);
                       var xhttp = new XMLHttpRequest();
                       xhttp.onreadystatechange = function () {
                             if (this.readyState == 4 && this.status == 201) {
-                                // hide popup and reload the folder
-                                top = 7.268736;
-                                left = 80.585189;
-                                bottom = 7.250260;
-                                right = 80.612311;
                                 window.location = "map.html?battlefield="+name;
                             }
                       };
