@@ -1,25 +1,34 @@
 // center of the map
 var center = [7.253261904540173, 80.59216260910034];
 // Create the map
+$('#newProject').click(function () {
+    // $("#loading").hide();
+    // $("#loading-spinner").show();
+
+    map2.invalidateSize();
+
+});
 var map2 = L.map(
     "map2",
     {
         center: [7.253261904540173, 80.59216260910034],
-        crs: L.CRS.EPSG3857,
         zoom: 8,
         zoomControl: true,
-        preferCanvas: false,
+        preferCanvas: false
     }
 );
 
 // Set up the OSM layer
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+    'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 18,
 
   }).addTo(map2);
-
+// setTimeout(function() {
+//     map2.invalidateSize();
+//     map2.setView([7.253261904540173, 80.59216260910034],18);
+//     },1000);
 // Initialise the FeatureGroup to store editable layers
 var editableLayers = new L.FeatureGroup();
 map2.addLayer(editableLayers);

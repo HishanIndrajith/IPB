@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
@@ -89,7 +89,7 @@
 
 		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 			<div class="modal-dialog" role="document">
-				<div class="modal-content model-style">
+				<div class="modal-content" id="model-style">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -101,7 +101,7 @@
 							<label for="exampleInputProjectName">Project Name</label>
 							<input type="email" class="form-control" id="exampleInputProjectName" placeholder="Enter Project Name">
 						</div>
-						<label for="map2">Select Contours</label>
+						<label>Select Contours</label>
 						<div id="map2"></div>
 					</div>
 					<div class="modal-footer">
@@ -112,9 +112,17 @@
 			</div>
 		</div>
 
-		<div id="map-area">
-			<div class="folium-map" id="map"></div>
+<!--		<div id="loading"></div>-->
+<!--		<div id="loading-spinner">-->
+<!--			<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">-->
+<!--				<span class="sr-only">Loading...</span>-->
+<!--			</div>-->
+<!--		</div>-->
+		<div id="front-layer">
+			<div id="loading"></div>
 		</div>
+		<div class="folium-map" id="map"></div>
+
 
 	</div>
 </div>
@@ -142,3 +150,4 @@
 </body>
 <script src="js/scripts.js"></script>
 <script src="js/init-area.js"></script>
+</html>

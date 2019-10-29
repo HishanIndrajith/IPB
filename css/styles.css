@@ -145,20 +145,28 @@ a.article:hover {
     }
 }
 
-#map{
+#front-layer{
+    background-color: white;
     position: absolute;
     width: 100%;
     height: 100%;
 }
+#map{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 #map2{
     position: absolute;
     width: 97%;
-    height: 75%;
+    height: 70%;
+
 }
 
-.model-style{
-    height: 650px !important;
-    width: 80vw !important;
+#model-style{
+    height: 600px;
+    width: 80vw;
     margin-left: -200px;
 }
 #map-area{
@@ -187,82 +195,23 @@ a.article:hover {
     top: 90px;
 }
 
-/*.leaflet-draw-toolbar a {*/
-/*    margin: 10px 0;*/
-/*    padding: 5px 0;*/
-/*    font-size: 20px;*/
-/*    width: 40px !important;*/
-/*    height: 40px !important;*/
-/*    border-radius: 50% !important;*/
-/*    display: none;*/
-/*    background-size: 30px 30px !important;*/
-/*    background-position: center !important;*/
+/*.no-js #loader { display: none;  }*/
+/*.js #loader { display: block; position: absolute; left: 100px; top: 0; }*/
+/*.se-pre-con {*/
+/*	position: fixed;*/
+/*	left: 0px;*/
+/*	top: 0px;*/
+/*	width: 100%;*/
+/*	height: 100%;*/
+/*	z-index: 9999;*/
+/*	background: url('http://localhost:63342/FrontEnd/ipb.gif') center no-repeat #fff;*/
 /*}*/
-
-/*.leaflet-draw-draw-polyline{*/
-/*    background-image: url('../img/DrawLine.png')  !important ;*/
-/*}*/
-
-/*.leaflet-draw-draw-polygon{*/
-/*    background-image: url('../img/polygon.png')  !important ;*/
-/*}*/
-/*.leaflet-draw-draw-rectangle{*/
-/*    background-image: url('../img/rectangle.jpg')  !important ;*/
-/*}*/
-/*.leaflet-draw-draw-circle{*/
-/*    background-image: url('../img/circle.png')  !important ;*/
-/*}*/
-/*.leaflet-draw-draw-marker{*/
-/*    background-image: url('../img/mapmarker.png')  !important ;*/
-/*}*/
-/*.leaflet-draw-draw-circlemarker{*/
-/*    background-image: url('../img/circlemaker.png')  !important ;*/
-/*}*/
-/*.leaflet-draw-edit-edit{*/
-/*    background-image: url('../img/editsymbol.png')  !important ;*/
-/*}*/
-/*.leaflet-draw-edit-remove{*/
-/*    background-image: url('../img/deletesymbol.jpg')  !important ;*/
-/*}*/
-
-/*.leaflet-draw-toolbar{*/
-/*    background-color: #d83636b8 !important;*/
-/*    border-color: #d836367d !important;*/
-/*    padding: 5px 0px;*/
-/*}*/
-
-
-/*Welcome.html page styles*/
-
-#body-welcome-page{
-    background-image: url('../img/welcome-page-back.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-#body-welcome-page .col-sm{
-    padding: auto;
-}
-#login-card{
+#loading {
+    background: url('../ipb.gif') no-repeat center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 100%;
+    z-index: 9999999;
 }
-#signup-card{
-    width: 100%;
-    display: none;
-}
-#body-welcome-page .row {
-    padding-top: 100px;
-    opacity: 0.85;
-}
-.login-card-header{
-    text-align: center;
-    background-color: blueviolet !important;
-    border: none !important;
-    height: 70px;
-    padding-top: 25px !important;
-    color: white;
-}
-.login-button{
-    width: 100%;
-    margin-top: 80px;
-}
-

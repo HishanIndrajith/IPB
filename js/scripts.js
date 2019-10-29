@@ -12,6 +12,26 @@ $(document).ready(function () {
 
 });
 
+// $("#loading-spinner").hide();
+//
+$('#newProject').click(function () {
+    // $("#loading").hide();
+    // $("#loading-spinner").show();
+
+    map.invalidateSize();
+
+});
+
+// $(window).load(function() {
+//
+// 		// Animate loader off screen
+//     setTimeout(hideLoader, 3 * 1000);
+//
+// });
+//
+// function hideLoader(){
+//     $("#loading").fadeOut("slow");
+// }
 
 battlefield = getUrlVars()["battlefield"];
 // map initializing
@@ -52,7 +72,8 @@ function setMapbounds() {
                 [bounds.top, bounds.left],
                 [bounds.bottom, bounds.right]
             ]);
-            document.getElementById("map-area").style.display="block";
+            $("#loading").hide();
+            document.getElementById("map").style.zIndex="1";
 
         }
     };
@@ -96,11 +117,26 @@ function loadOverlays() {
             // iterate all overlays
             for (i in overlays) {
                 var overlay = overlays[i];
-                var geojson = L.geoJSON(overlays[i]);
+                var geojson = L.geoJSON(overlay);
+                geojson.setStyle(function(feature) {
+                   var style_type = overlay.properties.style_type;
+                   if(style_type === 'solid'){
+                       return overlay.properties.styles[feature.properties[overlay.properties.style_factor]]
+                   }else if(style_type === 'pattern'){
+                       //pattern
+                       var pattern = new L.StripePattern(overlay.properties.styles[feature.properties[overlay.properties.style_factor]].pattern);
+                       var color = overlay.properties.styles[feature.properties[overlay.properties.style_factor]].color;
+                       pattern.addTo(map);
+                       return {fillPattern: pattern , color : color}
+                   }else if(style_type === 'function'){
+                        var opacity = (0.5/2525)*feature.properties.elevation + 0.5;
+                        return {color: 'blue', "opacity": opacity,"weight": 1};
+                    }
+                });
                 // add overlay to map
                 geojson.addTo(map);
                 // add overlay to layer control
-                layer_control.overlays[overlays[i].name] = geojson;
+                layer_control.overlays[overlay.name] = geojson;
             }
             // display layer control
             var controller = L.control.layers(
