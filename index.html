@@ -1,118 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <title>New Battlefield</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css"/>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet"
+          href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+
+    <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!--	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+	<!-- Popper.JS -->
+<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>-->
+	<!-- Bootstrap JS -->
+<!--	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 </head>
 <body>
 
+<div class="wrapper">
+	<!-- Sidebar -->
+	<nav id="sidebar">
+		<div class="sidebar-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<img class="ipb-logo" src="img/IPBlogo.png">
+					</div>
+					<div class="col-sm">
+						<h3>IPB</h3>
+					</div>
+				</div>
+			</div>
+		</div>
 
-<div class="container" style="margin-top: 10px">
-  <div class="row">
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body">
-              <h5 class="card-title">New Battlefield</h5>
-            <div class="form-group">
-                    <label for="name">Battlefield name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter a name for battlefield">
-                  </div>
-                  <div class="form-group">
-                    <label for="top">top</label>
-                    <input type="number" step="0.0000001" class="form-control" id="top" placeholder="top">
-                  </div>
-                  <div class="form-group">
-                    <label for="left">left</label>
-                    <input type="number" step="0.0000001" class="form-control" id="left" placeholder="left">
-                  </div>
-                    <div class="form-group">
-                    <label for="bottom">bottom</label>
-                    <input type="number" step="0.0000001" class="form-control" id="bottom" placeholder="bottom">
-                  </div>
-                    <div class="form-group">
-                    <label for="right">right</label>
-                    <input type="number" step="0.0000001" class="form-control" id="right" placeholder="right">
-                  </div>
-                  <button type="submit" class="btn btn-primary" onclick="createBattlefield()">Create Battlefield</button>
-              <script>
-                  function createBattlefield() {
-                      var name = document.getElementById('name').value;
-                      var jsonBody = {
-                            "top" : document.getElementById('top').value,
-                            "left" : document.getElementById('left').value,
-                            "bottom" : document.getElementById('bottom').value,
-                            "right": document.getElementById('right').value
-                      };
-                      console.log(jsonBody);
-                      var xhttp = new XMLHttpRequest();
-                      xhttp.onreadystatechange = function () {
-                            if (this.readyState == 4 && this.status == 201) {
-                                // hide popup and reload the folder
-                                top = 7.268736;
-                                left = 80.585189;
-                                bottom = 7.250260;
-                                right = 80.612311;
-                                window.location = "map.html?battlefield="+name;
-                            }
-                      };
-                      xhttp.open("POST", "http://127.0.0.1:8082/battlefields/" + name , true);
-                      xhttp.setRequestHeader("Content-type", "application/json");
-                      xhttp.send(JSON.stringify(jsonBody));
-                  }
-              </script>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-body">
-               <h5 class="card-title">Open Battlefield</h5>
-            <div class="form-group">
-                <label for="name2">Name of Battlefield</label>
-                <input type="text" class="form-control" id="name2"  placeholder="Enter name">
-              </div>
-              <button type="submit" class="btn btn-primary">Open Battlefield</button>
-          </div>
-        </div>
-      </div>
-    </div>
+		<ul class="list-unstyled components">
+			<li class="active">
+				<a href="#homeSubmenu" id="newProject" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">New Project</a>
+<!--				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">-->
+<!--					Launch demo modal-->
+<!--				</button>-->
+
+			</li>
+			<li>
+				<a href="#">Open Existing Project</a>
+			</li>
+			<li>
+				<a href="#">Admin Settings</a>
+			</li>
+		</ul>
+
+	</nav>
+	<!-- Page Content -->
+	<div id="content">
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+
+				<button type="button" id="sidebarCollapse" class="btn btn-info">
+					<i class="fas fa-align-left"></i>
+					<span>Toggle Sidebar</span>
+				</button>
+
+
+			</div>
+		</nav>
+
+		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" id="model-style">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="exampleInputProjectName">Project Name</label>
+							<input type="email" class="form-control" id="exampleInputProjectName" placeholder="Enter Project Name">
+						</div>
+						<label>Select Contours</label>
+						<div id="map2"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" onclick="CreateNewProject()" data-dismiss="modal">Select</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!--		<div id="loading"></div>-->
+<!--		<div id="loading-spinner">-->
+<!--			<div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">-->
+<!--				<span class="sr-only">Loading...</span>-->
+<!--			</div>-->
+<!--		</div>-->
+		<div id="front-layer">
+			<div id="loading"></div>
+		</div>
+		<div class="folium-map" id="map"></div>
+
+
+	</div>
 </div>
 
-<!--  <div class="panel panel-default col-sm-4 d-flex">-->
-<!--      <h2>New Battlefield</h2>-->
-<!--      <form class="form-horizontal" action="/action_page.php">-->
-<!--        <div class="form-group">-->
-<!--          <div class="col-sm-12">-->
-<!--            <input type="text" class="form-control" id="name" placeholder="battlefield name" name="name">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--          <div class="col-sm-3">-->
-<!--            <input type="number" step="0.0000001" class="form-control" id="top" placeholder="top" name="top">-->
-<!--          </div>-->
-<!--            <div class="col-sm-3">-->
-<!--            <input type="number" step="0.0000001" class="form-control" id="left" placeholder="left" name="left">-->
-<!--          </div>-->
-<!--            <div class="col-sm-3">-->
-<!--            <input type="number" step="0.0000001" class="form-control" id="bottom" placeholder="bottom" name="bottom">-->
-<!--          </div>-->
-<!--            <div class="col-sm-3">-->
-<!--            <input type="number" step="0.0000001" class="form-control" id="right" placeholder="right" name="right">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="form-group">-->
-<!--          <div align="center" class="col-sm-12">-->
-<!--            <button style="width: 100%" type="submit" class="btn btn-primary">Submit</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--  </div>-->
-<!--</div>-->
+
+
+
+<a href='#' id='export'>Export</a>
+<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="modelHeading"></h5>
+	      </div>
+	      <div class="modal-body">
+	      </div>
+	      <div class="modal-footer" id = "modal-footer">
+
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 </body>
+<script src="js/scripts.js"></script>
+<script src="js/init-area.js"></script>
 </html>

@@ -1,29 +1,37 @@
 // center of the map
 var center = [7.253261904540173, 80.59216260910034];
-
 // Create the map
-var map = L.map(
-    "map",
+$('#newProject').click(function () {
+    // $("#loading").hide();
+    // $("#loading-spinner").show();
+
+    map2.invalidateSize();
+
+});
+var map2 = L.map(
+    "map2",
     {
         center: [7.253261904540173, 80.59216260910034],
-        crs: L.CRS.EPSG3857,
         zoom: 8,
         zoomControl: true,
-        preferCanvas: false,
+        preferCanvas: false
     }
 );
 
 // Set up the OSM layer
 L.tileLayer(
-  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+    'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 18,
 
-  }).addTo(map);
-
+  }).addTo(map2);
+// setTimeout(function() {
+//     map2.invalidateSize();
+//     map2.setView([7.253261904540173, 80.59216260910034],18);
+//     },1000);
 // Initialise the FeatureGroup to store editable layers
 var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
+map2.addLayer(editableLayers);
 
 var drawPluginOptions = {
   position: 'topright',
@@ -52,48 +60,72 @@ var drawPluginOptions = {
   }
 };
 var drawnItems = new L.featureGroup().addTo(
-                map
+                map2
          );
             drawPluginOptions.edit.featureGroup = drawnItems;
 
-map.on(L.Draw.Event.CREATED, function(e) {
-                var layer = e.layer,
+var layer;
+var coords;
+function CreateNewProject(){
+    var element = document.getElementById("exampleInputProjectName");
+    var name = element.value;
+    // var name = document.getElementById('name').value;
+    var jsonBody = {
+        "top" : coords.geometry.coordinates[0][1][1],
+        "left" : coords.geometry.coordinates[0][1][0],
+        "bottom" : coords.geometry.coordinates[0][3][1],
+        "right": coords.geometry.coordinates[0][3][0]
+    };
+    console.log(name);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 201) {
+            window.open("index.html?battlefield="+name, "_self");
+            //window.location = "map.html?battlefield="+name;
+        }
+    };
+    xhttp.open("POST", "http://127.0.0.1:8082/battlefields/" + name , true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(jsonBody));
+}
+map2.on(L.Draw.Event.CREATED, function(e) {
+                layer = e.layer,
                     type = e.layerType;
-                var coords = layer.toGeoJSON();
-                layer.on('click', function() {
-                    var name = "bf1";
-                    // var name = document.getElementById('name').value;
-                      var jsonBody = {
-                            "top" : coords.geometry.coordinates[0][1][1],
-                            "left" : coords.geometry.coordinates[0][1][0],
-                            "bottom" : coords.geometry.coordinates[0][3][1],
-                            "right": coords.geometry.coordinates[0][3][0]
-                      };
-                      console.log(jsonBody);
-                      var xhttp = new XMLHttpRequest();
-                      xhttp.onreadystatechange = function () {
-                            if (this.readyState == 4 && this.status == 201) {
-                                window.location = "map.html?battlefield="+name;
-                            }
-                      };
-                      xhttp.open("POST", "http://127.0.0.1:8082/battlefields/" + name , true);
-                      xhttp.setRequestHeader("Content-type", "application/json");
-                      xhttp.send(JSON.stringify(jsonBody));
-                });
+                coords = layer.toGeoJSON();
+                // layer.on('click', function() {
+                //     var name = "bf1";
+                //     // var name = document.getElementById('name').value;
+                //       var jsonBody = {
+                //             "top" : coords.geometry.coordinates[0][1][1],
+                //             "left" : coords.geometry.coordinates[0][1][0],
+                //             "bottom" : coords.geometry.coordinates[0][3][1],
+                //             "right": coords.geometry.coordinates[0][3][0]
+                //       };
+                //       console.log(jsonBody);
+                //       var xhttp = new XMLHttpRequest();
+                //       xhttp.onreadystatechange = function () {
+                //             if (this.readyState == 4 && this.status == 201) {
+                //                 window.location = "map.html?battlefield="+name;
+                //             }
+                //       };
+                //       xhttp.open("POST", "http://127.0.0.1:8082/battlefields/" + name , true);
+                //       xhttp.setRequestHeader("Content-type", "application/json");
+                //       xhttp.send(JSON.stringify(jsonBody));
+                // });
                 drawnItems.addLayer(layer);
              });
-            map.on('draw:created', function(e) {
+            map2.on('draw:created', function(e) {
                 drawnItems.addLayer(e.layer);
             });
 
 // Initialise the draw control and pass it the FeatureGroup of editable layers
 var drawControl = new L.Control.Draw(drawPluginOptions);
-map.addControl(drawControl);
+map2.addControl(drawControl);
 
 var editableLayers = new L.FeatureGroup();
-map.addLayer(editableLayers);
+map2.addLayer(editableLayers);
 
-map.on('draw:created', function(e) {
+map2.on('draw:created', function(e) {
   var type = e.layerType,
     layer = e.layer;
 
