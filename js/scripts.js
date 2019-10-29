@@ -62,6 +62,35 @@ loadOverlays();
 loadDrawerToolBox();
 // setMapbounds();
 setMapbounds();
+getBattlefields();
+$('#existingProject').click(function () {
+    $("#loading").hide();
+
+});
+
+function getBattlefields() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let element='';
+            for(let battlefield of JSON.parse(this.response)){
+                element = element+'<option>'+ battlefield+'</option>';
+
+            }
+            document.getElementById("exampleFormControlSelect1").innerHTML = element
+            console.log(element);
+        }
+    };
+    xhttp.open("GET", "http://127.0.0.1:8082/battlefields", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+}
+
+function openNewMap(){
+    var element = document.getElementById("exampleFormControlSelect1");
+    let mapName = element.value;
+    window.open("index.html?battlefield="+mapName, "_self");
+}
 
 function setMapbounds() {
     var xhttp = new XMLHttpRequest();

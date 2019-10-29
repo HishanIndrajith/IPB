@@ -5,12 +5,20 @@
 /*    !*padding: 0;*!*/
 /*}*/
 
-
+.ipb-logo{
+    background-image: url('../img/Picture3.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+}
 .wrapper {
     display: flex;
     width: 100%;
 }
-
+.nav-item .btn{
+    margin-right: 5px !important;
+}
 #sidebar {
     width: 250px;
     position: fixed;
@@ -112,7 +120,7 @@ a.article:hover {
 
 #content {
     width: calc(100% - 250px);
-    min-height: 100vh;
+    min-height: 90vh;
     transition: all 0.3s;
     position: absolute;
     top: 0;
@@ -166,8 +174,8 @@ a.article:hover {
 
 #model-style{
     height: 600px;
-    width: 80vw;
-    margin-left: -200px;
+    /*width: 80vw;*/
+    /*margin-left: -20vw;*/
 }
 #map-area{
     display: none;
