@@ -152,14 +152,17 @@ a.article:hover {
 }
 #map2{
     position: absolute;
-    width: 95%;
-    height: 100%;
+    width: 97%;
+    height: 75%;
 }
 
 .model-style{
-    height: 600px !important;
+    height: 650px !important;
     width: 80vw !important;
     margin-left: -200px;
+}
+#map-area{
+    display: none;
 }
 /*#map {*/
 /*    position: relative;*/

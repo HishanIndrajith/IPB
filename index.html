@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
@@ -6,7 +7,6 @@
 <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
-	<link rel="stylesheet" href="css/init-area.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css"/>
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>-->
 <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>-->
@@ -91,23 +91,30 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content model-style">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLongTitle">Select Contours</h5>
+						<h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
+						<div class="form-group">
+							<label for="exampleInputProjectName">Project Name</label>
+							<input type="email" class="form-control" id="exampleInputProjectName" placeholder="Enter Project Name">
+						</div>
+						<label for="map2">Select Contours</label>
 						<div id="map2"></div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-primary">Select</button>
+						<button type="button" class="btn btn-primary" onclick="CreateNewProject()" data-dismiss="modal">Select</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="folium-map" id="map"></div>
+		<div id="map-area">
+			<div class="folium-map" id="map"></div>
+		</div>
 
 	</div>
 </div>
