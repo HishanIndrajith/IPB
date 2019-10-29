@@ -1,31 +1,189 @@
-html, body {
+/*html, body {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    !*margin: 0;*!*/
+/*    !*padding: 0;*!*/
+/*}*/
+
+
+.wrapper {
+    display: flex;
     width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
 }
 
-#map {
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.ipb-logo{
+    width: 50px;
+    height: 50px;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #fff;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #7386D5;
+}
+
+a.article,
+a.article:hover {
+    background: #6d7fcc !important;
+    color: #fff !important;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: calc(100% - 250px);
+    min-height: 100vh;
+    transition: all 0.3s;
     position: absolute;
     top: 0;
-    bottom: 0;
     right: 0;
-    left: 0;
 }
 
-#map {
-    position: relative;
-    width: 100.0%;
-    height: 100.0%;
-    left: 0.0%;
-    top: 0.0%;
+#content.active {
+    width: 100%;
 }
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: calc(100% - 250px);
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+#front-layer{
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#map{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+#map2{
+    position: absolute;
+    width: 97%;
+    height: 70%;
+
+}
+
+#model-style{
+    height: 600px;
+    width: 80vw;
+    margin-left: -200px;
+}
+#map-area{
+    display: none;
+}
+/*#map {*/
+/*    position: relative;*/
+/*    width: 100.0%;*/
+/*    height: 100.0%;*/
+/*    left: 0.0%;*/
+/*    top: 0.0%;*/
+/*}*/
 
 #export {
     position: absolute;
     top: 5px;
     right: 10px;
-    z-index: 999;
     background: white;
     color: black;
     padding: 6px;
@@ -49,7 +207,7 @@ html, body {
 /*	background: url('http://localhost:63342/FrontEnd/ipb.gif') center no-repeat #fff;*/
 /*}*/
 #loading {
-    background: url('http://localhost:63342/FrontEnd/ipb.gif') no-repeat center center;
+    background: url('../ipb.gif') no-repeat center center;
     position: absolute;
     top: 0;
     left: 0;

@@ -1,11 +1,37 @@
-$(window).load(function() {
-		// Animate loader off screen
-    setTimeout(hideLoader, 3 * 1000);
+$(document).ready(function () {
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+
 });
 
-function hideLoader(){
-    $("#loading").fadeOut("slow");
-}
+// $("#loading-spinner").hide();
+//
+$('#newProject').click(function () {
+    // $("#loading").hide();
+    // $("#loading-spinner").show();
+
+    map.invalidateSize();
+
+});
+
+// $(window).load(function() {
+//
+// 		// Animate loader off screen
+//     setTimeout(hideLoader, 3 * 1000);
+//
+// });
+//
+// function hideLoader(){
+//     $("#loading").fadeOut("slow");
+// }
 
 battlefield = getUrlVars()["battlefield"];
 // map initializing
@@ -46,6 +72,9 @@ function setMapbounds() {
                 [bounds.top, bounds.left],
                 [bounds.bottom, bounds.right]
             ]);
+            $("#loading").hide();
+            document.getElementById("map").style.zIndex="1";
+
         }
     };
     xhttp.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield, true);
@@ -291,3 +320,4 @@ function getUrlVars() {
     });
     return vars;
 }
+
