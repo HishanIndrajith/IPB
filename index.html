@@ -72,8 +72,14 @@
 </nav>
 
 <div id="front-layer">
-	<div id="loading"></div>
+    <div id="loading"></div>
 </div>
+
+<div class="spinner-grow text-primary" role="status" id="spinner">
+    <span class="sr-only">Loading...</span>
+</div>
+
+
 <div class="folium-map" id="map"></div>
 
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -82,7 +88,7 @@
         <div class="modal-content" id="model-style">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="showGif()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -96,7 +102,7 @@
                 <div class="folium-map" id="map2"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="showGif()">Cancel</button>
                 <button type="button" class="btn btn-primary" onclick="CreateNewProject()" data-dismiss="modal">Select
                 </button>
             </div>
@@ -110,7 +116,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Open Existing Map</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="showGif()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -127,7 +133,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="showGif()">Close</button>
                 <button type="button" class="btn btn-primary" onclick="openNewMap()">Open</button>
             </div>
         </div>
@@ -159,7 +165,6 @@
         </div>
     </div>
 </div>
-
 
 
 </body>

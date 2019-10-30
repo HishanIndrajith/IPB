@@ -7,6 +7,8 @@ var drawnItems;
 var editableLayers;
 var layer;
 var coords;
+
+
 $('#newProject').click(function () {
     $("#loading").hide();
 
@@ -97,6 +99,7 @@ $('#newProject').click(function () {
 });
 
 function CreateNewProject(){
+    document.getElementById("spinner").style.display="block";
     var element = document.getElementById("exampleInputProjectName");
     var name = element.value;
     // var name = document.getElementById('name').value;
