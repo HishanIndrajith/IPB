@@ -282,7 +282,7 @@ function saveShape() {
 }
 
 function modalContentSet(step) {
-    var form = document.getElementById('popup-body')
+    var form = document.getElementById('popup-body');
     var modelHeading = document.getElementById('modelHeading')
     var modalFooter = document.getElementById('modal-footer')
     if (step === 0) {
@@ -292,10 +292,7 @@ function modalContentSet(step) {
             optionHTML += option;
         }
         modelHeading.innerHTML = "Select Overlay Type";
-        form.innerHTML = "<label>Overlay Type</label>" +
-            "<select id=\"overlayType\" class=\"form-control\">" +
-            optionHTML +
-            "</select>";
+        form.innerHTML = "<label>Overlay Type</label>" + "<select id=\"overlayType\" class=\"form-control\">" + optionHTML + "</select>";
 
         modalFooter.innerHTML = " <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>" +
             "<button type=\"button\" class=\"btn btn-primary\" id = \"submitbtn\" onclick=\"modalNextLevelChooser()\">Next</button>";
