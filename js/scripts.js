@@ -68,17 +68,21 @@ $('#existingProject').click(function () {
 
 });
 
-function showGif(){
-    $("#loading").show();
+function showGif() {
+
+    if ((document.getElementById("map").style.zIndex) != 1) {
+        $("#loading").show();
+    }
+
 }
 
 function getBattlefields() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            let element='';
-            for(let battlefield of JSON.parse(this.response)){
-                element = element+'<option>'+ battlefield+'</option>';
+            let element = '';
+            for (let battlefield of JSON.parse(this.response)) {
+                element = element + '<option>' + battlefield + '</option>';
 
             }
             document.getElementById("exampleFormControlSelect1").innerHTML = element
@@ -90,10 +94,10 @@ function getBattlefields() {
     xhttp.send();
 }
 
-function openNewMap(){
+function openNewMap() {
     var element = document.getElementById("exampleFormControlSelect1");
     let mapName = element.value;
-    window.open("index.html?battlefield="+mapName, "_self");
+    window.open("index.html?battlefield=" + mapName, "_self");
 }
 
 function setMapbounds() {
@@ -106,8 +110,8 @@ function setMapbounds() {
                 [bounds.bottom, bounds.right]
             ]);
             $("#loading").hide();
-            document.getElementById("map").style.zIndex="1";
-            document.getElementById("spinner").style.display="none";
+            document.getElementById("map").style.zIndex = "1";
+            document.getElementById("spinner").style.display = "none";
 
         }
     };
@@ -152,19 +156,19 @@ function loadOverlays() {
             for (i in overlays) {
                 var overlay = overlays[i];
                 var geojson = L.geoJSON(overlay);
-                geojson.setStyle(function(feature) {
-                   var style_type = overlay.properties.style_type;
-                   if(style_type === 'solid'){
-                       return overlay.properties.styles[feature.properties[overlay.properties.style_factor]]
-                   }else if(style_type === 'pattern'){
-                       //pattern
-                       var pattern = new L.StripePattern(overlay.properties.styles[feature.properties[overlay.properties.style_factor]].pattern);
-                       var color = overlay.properties.styles[feature.properties[overlay.properties.style_factor]].color;
-                       pattern.addTo(map);
-                       return {fillPattern: pattern , color : color}
-                   }else if(style_type === 'function'){
-                        var opacity = (0.5/2525)*feature.properties.elevation + 0.5;
-                        return {color: 'blue', "opacity": opacity,"weight": 1};
+                geojson.setStyle(function (feature) {
+                    var style_type = overlay.properties.style_type;
+                    if (style_type === 'solid') {
+                        return overlay.properties.styles[feature.properties[overlay.properties.style_factor]]
+                    } else if (style_type === 'pattern') {
+                        //pattern
+                        var pattern = new L.StripePattern(overlay.properties.styles[feature.properties[overlay.properties.style_factor]].pattern);
+                        var color = overlay.properties.styles[feature.properties[overlay.properties.style_factor]].color;
+                        pattern.addTo(map);
+                        return {fillPattern: pattern, color: color}
+                    } else if (style_type === 'function') {
+                        var opacity = (0.5 / 2525) * feature.properties.elevation + 0.5;
+                        return {color: 'blue', "opacity": opacity, "weight": 1};
                     }
                 });
                 // add overlay to map
