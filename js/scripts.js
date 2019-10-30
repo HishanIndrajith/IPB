@@ -68,6 +68,10 @@ $('#existingProject').click(function () {
 
 });
 
+function showGif(){
+    $("#loading").show();
+}
+
 function getBattlefields() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -103,6 +107,7 @@ function setMapbounds() {
             ]);
             $("#loading").hide();
             document.getElementById("map").style.zIndex="1";
+            document.getElementById("spinner").style.display="none";
 
         }
     };
