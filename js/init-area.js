@@ -99,6 +99,7 @@ $('#newProject').click(function () {
 });
 
 function CreateNewProject(){
+    document.getElementById("map").style.zIndex = "-1";
     document.getElementById("spinner").style.display="block";
     var element = document.getElementById("exampleInputProjectName");
     var name = element.value;
