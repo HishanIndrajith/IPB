@@ -1,0 +1,9 @@
+{
+    "attributes_options": [],
+    "attributes_direct": [
+      {
+        "name": "elevation",
+        "type": "number"
+      }
+    ]
+}

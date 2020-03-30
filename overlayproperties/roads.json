@@ -1,0 +1,37 @@
+{
+    "attributes_options": [
+      {
+        "name": "Road Type",
+        "options": [
+          "motorway",
+          "trunk",
+          "primary",
+          "secondary",
+          "tertiary",
+          "unclassified",
+          "residential",
+          "motorway_link",
+          "trunk_link",
+          "primary_link",
+          "secondary_link",
+          "tertiary_link",
+          "living_street",
+          "service",
+          "pedestrian",
+          "track",
+          "footway",
+          "bridleway",
+          "steps",
+          "path",
+          "cycleway",
+          "track_grade1",
+          "track_grade2",
+          "track_grade3",
+          "track_grade4",
+          "track_grade5",
+          "unknown"
+        ]
+      }
+    ],
+    "attributes_direct": []
+  }

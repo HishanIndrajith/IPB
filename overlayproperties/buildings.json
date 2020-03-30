@@ -1,0 +1,52 @@
+{
+    "attributes_options": [
+      {
+        "name": "No of occupants",
+        "options": [
+          "empty",
+          "less than 10",
+          "more than 10",
+          "unknown"
+        ]
+      },
+      {
+        "name": "status",
+        "options": [
+          "enemy",
+          "friendly",
+          "neutral",
+		  "unknown"
+        ]
+      },
+      {
+        "name": "Material",
+        "options": [
+          "Brick",
+          "Cement",
+          "clay",
+          "metal",
+          "wood",
+		  "unknown"
+        ]
+      },
+      {
+        "name": "Building Type",
+        "options": [
+          "business-industrial",
+          "residential",
+          "institutional",
+          "educational",
+          "religious",
+          "hospital",
+          "public",
+          "unknown"
+        ]
+      }
+    ],
+    "attributes_direct": [
+      {
+        "name": "No of stories",
+        "type": "number"
+      }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "attributes_options": [
+      {
+        "name": "water body type",
+        "options": [
+          "water",
+          "river",
+          "reservoir",
+          "wetland",
+          "dock",
+		  "unknown"
+        ]
+      }
+    ],
+    "attributes_direct": []
+  }

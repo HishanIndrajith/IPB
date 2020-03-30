@@ -3,11 +3,9 @@ import json
 import os
 
 
-class Overalays(Resource):
-    def get(self):
-        battlefield = request.args.get('battlefield')
+class Overlays(Resource):
+    def get(self, battlefield):
         path = 'battlefields\\'+battlefield+'\\'
-
         overlays = []
         # r=root, d=directories, f = files
         for r, d, f in os.walk(path):
