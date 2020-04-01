@@ -324,22 +324,25 @@ loadOverlays();
 
 
 function loadOverlays() {
+    if(battlefield === undefined) {
+        document.getElementById('parent-main-map').innerHTML = '<div id="mapId" style="background: linear-gradient(180deg, rgba(1,18,21,1) 0%, rgba(2,34,39,1) 75%, rgba(4,43,51,1) 100%);" ></div>';
+        document.getElementById('logo-animation').style.visibility = 'visible';
+        return;
+    }
     document.getElementById('parent-main-map').innerHTML = mainMapHTML;
     document.getElementById('defaultOpen').click();
-
     // initiate map
     map = L.map(
         "mapId",
         {
             center: [7.796, 80.673],
             crs: L.CRS.EPSG3857,
-            zoom: 8,
+            zoom: 7,
             zoomControl: true,
             preferCanvas: false,
         }
     );
-    if(battlefield !== undefined)
-        setMapBounds();
+    setMapBounds();
     // create the base map and add to map
     let openStreetMap = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -358,11 +361,7 @@ function loadOverlays() {
     let satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
-    if(battlefield === undefined) {
-        document.getElementById('modeSelection').style.visibility = 'hidden';
-        document.getElementById('logo-animation').style.visibility = 'visible';
-        return;
-    }
+
     // send XHR GET request to overlays endpoint to get all overlays.
     let xHttp = new XMLHttpRequest();
     xHttp.onreadystatechange = function () {
@@ -450,14 +449,6 @@ function loadOverlays() {
                                            showWaterDataDialog(e.layer.feature, overlay.properties, "WATER", e.latlng, depth_select.value, []);
                                     };
                              },500);
-                            // let water_depth_div = document.getElementById('water_depth');
-                            // let depth_select = water_depth_div.getElementsByTagName('select')[0];
-                            // let depth_button = water_depth_div.getElementsByTagName('button')[0];
-                            // depth_button.onclick = function () {
-                            //     console.log("s0"+ dataModeOn);
-                            //     showWaterDataDialog(e.layer.feature, overlay.properties, "WATER", e.latlng, depth_select.value, []);
-                            // };
-                            // console.log(depth_button.onclick);
                         } else if (overlay.name === 'buildings') {
                             showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "BUILDING");
                         } else if (overlay.name === 'roads')
@@ -540,12 +531,7 @@ function loadDrawerToolBox(map) {
         options
     ).addTo(map);
     let layer;
-    map.on(L.Draw.Event.CREATED, function (e) {
-        popup1_not_closed = false;
-        layer = e.layer;
-        // layer.on('click', function () {
-        //     console.log(coords);
-        // });
+    map.on(L.Draw.Event.CREATED, function () {
         drawnItems.addLayer(layer);
         $("#overlayTypeSelector").modal();
         lastDrawnShapeGeoJson = JSON.stringify(layer.toGeoJSON());
@@ -623,8 +609,6 @@ function dataMode() {
 }
 
 // Legend
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
 
 function showLegend(button, overlayName) {
     let i, tabContent, tabLinks;
@@ -728,6 +712,8 @@ function deleteOverlay(overlayName, id) {
 function createNewBattlefield(json_body) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function () {
+       let logoAnimation = $('#logo-animation');
+       logoAnimation.hide();
        let loadingModal = $('#loading-modal');
        loadingModal.modal({
             backdrop: 'static',
@@ -737,6 +723,7 @@ function createNewBattlefield(json_body) {
             window.open("map.html?battlefield="+json_body.name, "_self");
         }else if(this.readyState === 4){
             loadingModal.modal('hide');
+            logoAnimation.show();
             showErrorsMessage("UNSUCCESSFUL");
         }
     };
