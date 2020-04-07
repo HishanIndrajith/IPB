@@ -35,7 +35,7 @@ elevation_array = np.expand_dims(rasterArray, axis=2)
 np.set_printoptions(threshold=sys.maxsize)
 
 # print(elevation_array[:, 0])
-print(elevation_array.shape)
+# print(elevation_array.shape)
 # print(result)
 # (row,column)
 
@@ -43,7 +43,7 @@ x1 = referenceTrans[0]
 delta_x1 = referenceTrans[1]
 y1 = referenceTrans[3]
 delta_y1 = referenceTrans[5]
-print((x1, y1, delta_x1, delta_y1))
+# print((x1, y1, delta_x1, delta_y1))
 # print(result[280,270])
 latitude_grid = Grids.get_latitude_grid(elevation_array, y1, delta_y1)
 longitude_grid = Grids.get_longitude_grid(elevation_array, x1, delta_x1)
