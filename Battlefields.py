@@ -3,6 +3,7 @@ import json
 import os
 import ast
 import OverlayGenerator
+import OverlayGeneratorSpeed
 
 
 class Battlefields(Resource):
@@ -42,5 +43,6 @@ class Battlefields(Resource):
                     "right": right,
                 }
                 json.dump(bound_json, outfile)
-            OverlayGenerator.start(name, top, left, bottom, right)
+            # OverlayGenerator.start(name, top, left, bottom, right)
+            OverlayGeneratorSpeed.start(name, top, left, bottom, right)
             return "success", 201

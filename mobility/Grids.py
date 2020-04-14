@@ -6,7 +6,7 @@ import gdal
 
 def get_elevation_grid(long_left, lat_bottom, long_right, lat_top):
     ras_in = "srilankaterrain.tif"
-    clipped = gdal.Warp("output.tif", ras_in, outputBounds=[long_left, lat_bottom, long_right, lat_top],
+    clipped = gdal.Warp("tempfiles\\output.tif", ras_in, outputBounds=[long_left, lat_bottom, long_right, lat_top],
                         outputBoundsSRS='EPSG:4267')
 
     reference_projection = clipped.GetProjection()
@@ -21,7 +21,7 @@ def get_elevation_grid(long_left, lat_bottom, long_right, lat_top):
     reference_transform = tuple(reference_transform_list)
 
     driver = gdal.GetDriverByName('GTiff')
-    output = driver.Create("outputsample.tif", x, y, 1, band_reference.DataType)
+    output = driver.Create("tempfiles\\outputsample.tif", x, y, 1, band_reference.DataType)
     output.SetGeoTransform(reference_transform)
     output.SetProjection(reference_projection)
 

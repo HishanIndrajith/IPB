@@ -20,9 +20,16 @@ def array2raster(new_raster_fn, raster_origin, pixel_width, pixel_height, array)
     out_band.FlushCache()
 
 
-def save_grid_as_raster(grid, x1, delta_x1, y1, delta_y1, name):
+def save_3d_grid_as_raster(grid, x1, delta_x1, y1, delta_y1, name):
     grid_2d = grid[:, :, 0]
     raster_origin = (x1, y1)
     pixel_width = delta_x1
     pixel_height = delta_y1
     array2raster(name, raster_origin, pixel_width, pixel_height, grid_2d)  # convert array to raster
+
+
+def save_2d_grid_as_raster(grid, x1, delta_x1, y1, delta_y1, name):
+    raster_origin = (x1, y1)
+    pixel_width = delta_x1
+    pixel_height = delta_y1
+    array2raster(name, raster_origin, pixel_width, pixel_height, grid)  # convert array to raster
