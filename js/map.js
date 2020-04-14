@@ -531,7 +531,8 @@ function loadDrawerToolBox(map) {
         options
     ).addTo(map);
     let layer;
-    map.on(L.Draw.Event.CREATED, function () {
+    map.on(L.Draw.Event.CREATED, function (e) {
+        layer = e.layer;
         drawnItems.addLayer(layer);
         $("#overlayTypeSelector").modal();
         lastDrawnShapeGeoJson = JSON.stringify(layer.toGeoJSON());
