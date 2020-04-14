@@ -3,6 +3,8 @@ import json
 import os
 import ast
 
+sep = os.path.sep
+
 
 class Feature(Resource):
 
@@ -12,7 +14,7 @@ class Feature(Resource):
         parser.add_argument("properties")
         parser.add_argument("geometry")
         args = parser.parse_args()
-        filename = 'battlefields\\' + battlefield + '\\' + overlay + '.json'
+        filename = 'battlefields' + sep + battlefield + sep + overlay + '.json'
         if os.path.exists(filename):
             feature = {
                 "type": args["type"],
@@ -37,7 +39,7 @@ class Feature(Resource):
             return "overlay not found", 404
 
     def delete(self, battlefield, overlay, feature_id):
-        filename = 'battlefields\\' + battlefield + '\\' + overlay + '.json'
+        filename = 'battlefields' + sep + battlefield + sep + overlay + '.json'
         if os.path.exists(filename):
             with open(filename) as json_file:
                 data = json.load(json_file)

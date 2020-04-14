@@ -24,6 +24,19 @@ def slope(elevation_array):
             if row_id != elevation_array.shape[0]-1:
                 bottom_slope = two_point_slope(elevation_array[row_id+1, column_id], column, -1)
                 slope_cells_around.append(bottom_slope)
+            if row_id != 0 and column_id != 0:
+                top_left_slope = two_point_slope(elevation_array[row_id-1, column_id-1], column, 1)
+                slope_cells_around.append(top_left_slope)
+            if row_id != 0 and column_id != elevation_array.shape[1]-1:
+                top_right_slope = two_point_slope(elevation_array[row_id-1, column_id+1], column, -1)
+                slope_cells_around.append(top_right_slope)
+            if row_id != elevation_array.shape[0]-1 and column_id != elevation_array.shape[1]-1:
+                bottom_right_slope = two_point_slope(elevation_array[row_id + 1, column_id + 1], column, 1)
+                slope_cells_around.append(bottom_right_slope)
+            if row_id != elevation_array.shape[0]-1 and column_id != 0:
+                bottom_left_slope = two_point_slope(elevation_array[row_id + 1, column_id - 1], column, -1)
+                slope_cells_around.append(bottom_left_slope)
+
             total_slope = 0
             for slp in slope_cells_around:
                 total_slope = total_slope + slp

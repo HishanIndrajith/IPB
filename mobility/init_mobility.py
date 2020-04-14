@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 import json
+import os
 from mobility import Slope
 from mobility import Grids
 from mobility import ArrayToRaster
@@ -8,8 +9,9 @@ from mobility import Trafficability
 from mobility import Rasterize
 
 
-battlefield = "pera_campus"
-with open('..\\battlefields\\' + battlefield + '\\bounds.data') as json_file:
+battlefield = "Mission_Badulla_02"
+sep = os.path.sep
+with open('..' + sep + 'battlefields' + sep + battlefield + sep + 'bounds.data') as json_file:
     data = json.load(json_file)
     long_left = data['left']
     lat_bottom = data['bottom']
@@ -56,10 +58,10 @@ level_4_combined_array = np.concatenate((level_4_combined_array, road_grid), axi
 print(level_4_combined_array.shape)
 # uncomment below line to print final array
 # print(level_3_combined_array)
-# ArrayToRaster.save_3d_grid_as_raster(slope_grid, x1, delta_x1, y1, delta_y1, 'slope_grid.tif')
+ArrayToRaster.save_3d_grid_as_raster(slope_grid, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'slope_grid.tif')
 
 
 # trafficability
 trafficability_grid = Trafficability.get_trafficability_grid(level_4_combined_array)
-ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1, 'tempfiles\\trafficability.tif')
+ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'trafficability.tif')
 # print(trafficability_grid)

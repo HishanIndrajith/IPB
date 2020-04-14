@@ -1,6 +1,9 @@
 from osgeo import ogr
 import threading
 import json
+import os
+
+sep = os.path.sep
 
 
 def add_id(path, name):
@@ -26,7 +29,7 @@ def add_id(path, name):
 
 def clip_overlay(battlefield, name, top, left, bottom, right):
     print(name + " overlay generating initiated")
-    shape_file = "srilankadata\\" + name + ".geojson"
+    shape_file = "srilankadata" + sep + name + ".geojson"
     driver = ogr.GetDriverByName("geojson")
     data_source = driver.Open(shape_file, 0)
     layer = data_source.GetLayer()
@@ -41,7 +44,7 @@ def clip_overlay(battlefield, name, top, left, bottom, right):
     layer.SetSpatialFilter(ogr.CreateGeometryFromWkt(wkt))
 
     # Save extent to a new Shapefile
-    out_file = "battlefields\\" + battlefield + "\\" + name + ".json"
+    out_file = "battlefields" + sep + battlefield + sep + name + ".json"
     out_driver = ogr.GetDriverByName("geojson")
     out_data_source = out_driver.CreateDataSource(out_file)
     out_data_source.CopyLayer(layer, "")

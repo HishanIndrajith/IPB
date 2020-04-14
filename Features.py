@@ -3,6 +3,8 @@ import json
 import os
 import ast
 
+sep = os.path.sep
+
 
 class Features(Resource):
     def post(self, battlefield, overlay):
@@ -12,7 +14,7 @@ class Features(Resource):
         parser.add_argument("properties")
         parser.add_argument("geometry")
         args = parser.parse_args()
-        filename = 'battlefields\\' + battlefield + '\\' + overlay + '.json'
+        filename = 'battlefields' + sep + battlefield + sep + overlay + '.json'
         if os.path.exists(filename):
             with open(filename) as json_file:
                 data = json.load(json_file)

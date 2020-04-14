@@ -2,13 +2,14 @@ from flask_restful import Resource, reqparse, Api
 import json
 import os
 import ast
-import OverlayGenerator
 import OverlayGeneratorSpeed
+
+sep = os.path.sep
 
 
 class Battlefields(Resource):
     def get(self):
-        path = 'battlefields\\'
+        path = 'battlefields' + sep
         battlefields = []
         # r=root, d=directories, f = files
         for x in os.listdir(path):
@@ -26,7 +27,7 @@ class Battlefields(Resource):
         parser.add_argument("right")
         args = parser.parse_args()
         name = args["name"]
-        filename = 'battlefields\\' + name
+        filename = 'battlefields' + sep + name
         if os.path.exists(filename):
             return "battlefield already there", 409
         else:
@@ -35,7 +36,7 @@ class Battlefields(Resource):
             bottom = ast.literal_eval(args["bottom"])
             right = ast.literal_eval(args["right"])
             os.mkdir(filename)
-            with open(filename + "\\bounds.data", 'w') as outfile:
+            with open(filename + sep + "bounds.data", 'w') as outfile:
                 bound_json = {
                     "top": top,
                     "left": left,
