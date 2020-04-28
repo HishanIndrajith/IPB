@@ -36,6 +36,7 @@ class Battlefields(Resource):
             bottom = ast.literal_eval(args["bottom"])
             right = ast.literal_eval(args["right"])
             os.mkdir(filename)
+            os.mkdir(filename + sep + 'mobility')
             with open(filename + sep + "bounds.data", 'w') as outfile:
                 bound_json = {
                     "top": top,
