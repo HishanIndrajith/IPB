@@ -7,11 +7,14 @@ from mobility import Grids
 from mobility import ArrayToRaster
 from mobility import Trafficability
 from mobility import Rasterize
+from mobility import voronoi
+from mobility import obstacle_family
+from mobility import GetBorder
 
-
-battlefield = "Mission_Badulla_02"
 sep = os.path.sep
-with open('..' + sep + 'battlefields' + sep + battlefield + sep + 'bounds.data') as json_file:
+battlefield = "efac"
+battlefield_path = '..' + sep + 'battlefields' + sep + battlefield + sep
+with open(battlefield_path + 'bounds.data') as json_file:
     data = json.load(json_file)
     long_left = data['left']
     lat_bottom = data['bottom']
@@ -60,8 +63,31 @@ print(level_4_combined_array.shape)
 # print(level_3_combined_array)
 ArrayToRaster.save_3d_grid_as_raster(slope_grid, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'slope_grid.tif')
 
-
 # trafficability
 trafficability_grid = Trafficability.get_trafficability_grid(level_4_combined_array)
-ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'trafficability.tif')
+# boundaries = GetBorder.get_boundary_points(trafficability_grid)
+# boundaries_edit = np.copy(boundaries)
+# obstacle_family = obstacle_family.partition_obstacles(boundaries_edit)
+# print('no of obstacles = ' + str(len(obstacle_family)))
+# voronoi_array = voronoi.start(obstacle_family, boundaries_edit.shape)
+# roads_2d = road_grid[:, :, 0]
+# voronoi_with_roads = np.where(roads_2d == 1, 1, voronoi_array)
+#
+# ArrayToRaster.save_2d_grid_as_raster(boundaries, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'boundaries.tif')
+ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1,
+                                     'tempfiles' + sep + 'trafficability.tif')
+# ArrayToRaster.save_2d_grid_as_raster(voronoi_with_roads, x1, delta_x1, y1, delta_y1,
+#                                      battlefield_path + 'mobility' + sep + 'voronoi.tif')
 # print(trafficability_grid)
+
+# array = np.array([    [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+#                       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+#                       [ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
+#                       [ 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1],
+#                       [ 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1],
+#                       [ 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1],
+#                       [ 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+#                       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+#                       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+#                       [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])
+# ArrayToRaster.save_2d_grid_as_raster(array, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'gdal.tif')
