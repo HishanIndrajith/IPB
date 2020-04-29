@@ -2,9 +2,9 @@
   <PAMRasterBand band="1">
     <Metadata>
       <MDI key="STATISTICS_MAXIMUM">1</MDI>
-      <MDI key="STATISTICS_MEAN">0.1452</MDI>
+      <MDI key="STATISTICS_MEAN">0.003</MDI>
       <MDI key="STATISTICS_MINIMUM">0</MDI>
-      <MDI key="STATISTICS_STDDEV">0.35230237013111</MDI>
+      <MDI key="STATISTICS_STDDEV">0.054690035655501</MDI>
       <MDI key="STATISTICS_VALID_PERCENT">100</MDI>
     </Metadata>
   </PAMRasterBand>
