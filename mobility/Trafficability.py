@@ -12,10 +12,10 @@ def get_trafficability_grid(all_overlays_grid):
             trafficability_grid[row_id, column_id] = trafficability_of_cell_levels(column)
             column_id = column_id + 1
         row_id = row_id + 1
-    trafficability_grid[0, :] = 1
-    trafficability_grid[:, 0] = 1
-    trafficability_grid[trafficability_grid.shape[0] - 1, :] = 1
-    trafficability_grid[:, trafficability_grid.shape[1] - 1] = 1
+    trafficability_grid[0, :] = 7
+    trafficability_grid[:, 0] = 7
+    trafficability_grid[trafficability_grid.shape[0] - 1, :] = 7
+    trafficability_grid[:, trafficability_grid.shape[1] - 1] = 7
     return trafficability_grid
 
 
@@ -39,23 +39,20 @@ def trafficability_of_cell_levels(cell):
     building = cell[5]
     water = cell[6]
     road = cell[7]
-    trafficability = vegetation
-    if vegetation == 6:
+    # mobility levels = {1, 2, 3, 4, 5, 6, 7}
+    trafficability = None
+    if slope <= 0.05 or vegetation == 1:  # grassland
         trafficability = 2
-    if slope > 0.2:
-        trafficability = 6
-    elif slope > 0.15:
-        trafficability = 5
-    elif slope > 0.1:
-        trafficability = 4
-    elif slope > 0.05:
+    if slope > 0.05 or vegetation == 2 or vegetation == 6:  # shrubland, unknown vegetation
         trafficability = 3
-    else:
-        trafficability = 2
-    if water == 1:
+    if slope > 0.1 or vegetation == 3:  # woodland
         trafficability = 4
-    if building == 1:
+    if slope > 0.15 or vegetation == 4 or water == 1:  # medium density forest
         trafficability = 5
-    if road == 1:
+    if slope > 0.2 or vegetation == 5:  # high density forest, deep water
+        trafficability = 6
+    if building == 1:
+        trafficability = 7
+    if road == 1:  # roads
         trafficability = 1
     return trafficability
