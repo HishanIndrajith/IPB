@@ -1,4 +1,4 @@
-function modeStyleSet(btnSelected, btnNotSelected1, btnNotSelected2) {
+function modeStyleSet(btnSelected, btnNotSelected1, btnNotSelected2, btnNotSelected3) {
     btnSelected.style.textShadow = '0 0 7px #a5ebd1';
     btnSelected.style.backgroundColor = '#161714';
     btnSelected.style.color = 'white';
@@ -11,6 +11,10 @@ function modeStyleSet(btnSelected, btnNotSelected1, btnNotSelected2) {
     btnNotSelected2.style.backgroundColor = '#2e2f2a';
     btnNotSelected2.style.color = '#368e95';
     btnNotSelected2.children[0].style.color = '#27666b';
+    btnNotSelected3.style.textShadow = 'None';
+    btnNotSelected3.style.backgroundColor = '#2e2f2a';
+    btnNotSelected3.style.color = '#368e95';
+    btnNotSelected3.children[0].style.color = '#27666b';
 }
 
 function controllerStyleSet() {

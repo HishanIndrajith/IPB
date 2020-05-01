@@ -290,6 +290,9 @@ let mainMapHTML = "<div id=\"mapId\">\n" +
     "        <button type=\"button\" id=\"dataBtn\" onclick=\"dataMode()\">\n" +
     "            DATA <i class=\"fas fa-minus\"></i>\n" +
     "        </button>\n" +
+    "        <button type=\"button\" id=\"pathBtn\" onclick=\"pathMode()\">\n" +
+    "            PATH <i class=\"fas fa-minus\"></i>\n" +
+    "        </button>\n" +
     "    </div>\n" +
     "    <div id=\"legend\">\n" +
     "        <div>LEGEND</div>\n" +
@@ -578,6 +581,7 @@ function initiateModeSelector() {
     viewBtn = document.getElementById('viewBtn');
     drawBtn = document.getElementById('drawBtn');
     dataBtn = document.getElementById('dataBtn');
+    pathBtn = document.getElementById('pathBtn');
     legend = document.getElementById('legend');
     tools = document.getElementById('tools');
     toolBar = document.getElementsByClassName('leaflet-draw-toolbar')[0];
@@ -586,7 +590,7 @@ function initiateModeSelector() {
 }
 
 function viewMode() {
-    modeStyleSet(viewBtn, drawBtn, dataBtn);
+    modeStyleSet(viewBtn, drawBtn, dataBtn, pathBtn);
     legend.style.visibility = "visible";
     toolBar.style.visibility = "hidden";
     dataModeOn = false;
@@ -594,7 +598,7 @@ function viewMode() {
 }
 
 function drawMode() {
-    modeStyleSet(drawBtn, viewBtn, dataBtn);
+    modeStyleSet(drawBtn, viewBtn, dataBtn, pathBtn);
     legend.style.visibility = "hidden";
     toolBar.style.visibility = "visible";
     dataModeOn = false;
@@ -602,11 +606,20 @@ function drawMode() {
 }
 
 function dataMode() {
-    modeStyleSet(dataBtn, drawBtn, viewBtn);
+    modeStyleSet(dataBtn, drawBtn, viewBtn, pathBtn);
     legend.style.visibility = "hidden";
     toolBar.style.visibility = "hidden";
     dataModeOn = true;
     viewModeOn = false;
+}
+
+function pathMode() {
+    modeStyleSet(pathBtn, drawBtn, viewBtn, dataBtn);
+    legend.style.visibility = "hidden";
+    toolBar.style.visibility = "hidden";
+    dataModeOn = false;
+    viewModeOn = false;
+    definePath();
 }
 
 // Legend
@@ -623,6 +636,39 @@ function showLegend(button, overlayName) {
     }
     document.getElementById(overlayName).style.display = "block";
     button.className += " active";
+}
+
+function definePath(){
+    $("#drawPathModal").modal();
+    document.getElementById('path_ok').onclick = function () {
+        var popup = L.popup();
+        count = 0;
+        var coordArr=[];
+        map.on('click', function(ev){
+            count += 1;
+            if(count<=2){
+                console.log(count);
+                console.log(ev.latlng);
+                coordArr.push(ev.latlng.lng + ', ' + ev.latlng.lat);
+                popup
+                    .setLatLng(ev.latlng)
+                    .setContent("Your coordinates recorded " + ev.latlng.lat + ',' + ev.latlng.lng)
+                    .openOn(map);
+            }
+            if(count==2){
+                console.log(coordArr);
+                let request = new XMLHttpRequest();
+                request.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield +"/least-cost-path?start="+coordArr[0]+"&destination="+coordArr[1], true);
+                request.send();
+            }
+          });
+    };
+   
+    // map.on('click', function(ev){
+    //     map.addEventListener('mousemove', showCoordinates);
+    //     var latlng = map.mouseEventToLatLng(ev.originalEvent);
+    //     console.log(latlng.lat + ', ' + latlng.lng);
+    //   });
 }
 
 function saveBuildingOverlay() {
