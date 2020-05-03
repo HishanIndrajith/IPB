@@ -1,6 +1,7 @@
 # Dijkstra's minimum cost path algorithm used
-import numpy as np
 from skimage.graph import route_through_array
+import numpy as np
+import json
 
 
 def coord2pixel_offset(x1, y1, delta_x1, delta_y1, x, y):
@@ -18,12 +19,33 @@ def create_path(cost_surface_array, x1, y1, delta_x1, delta_y1, start_coord, sto
     stop_coord_x = stop_coord[0]
     stop_coord_y = stop_coord[1]
     stop_index_x, stop_index_y = coord2pixel_offset(x1, y1, delta_x1, delta_y1, stop_coord_x, stop_coord_y)
+    path, cost = route_through_array(cost_surface_array, (start_index_y, start_index_x), (stop_index_y, stop_index_x),
+                               geometric=True, fully_connected=True)
+    return json.dumps(make_geo_json(path, cost, x1, y1, delta_x1, delta_y1))
 
-    # create path
-    indices, weight = route_through_array(cost_surface_array, (start_index_y, start_index_x),
-                                          (stop_index_y, stop_index_x),
-                                          geometric=True, fully_connected=True)
-    indices = np.array(indices).T
-    path = np.zeros_like(cost_surface_array)
-    path[indices[0], indices[1]] = 1
-    return path
+
+def make_geo_json(path, cost, x1, y1, delta_x1, delta_y1):
+    path = np.array(path, float).T
+    path = path + 0.5
+    path[0] = (path[0] * delta_y1) + y1
+    path[1] = (path[1] * delta_x1) + x1
+    path = np.flip(path, 0)
+    path = path.T
+    path = path.tolist()
+    feature = {
+        "type": "Feature",
+        "properties": {
+            "cost": cost
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": path
+        }
+    }
+    json_data = {
+        "name": "minimum_cost_path",
+        "type": "FeatureCollection",
+        "features": [feature]
+    }
+    return json_data
+
