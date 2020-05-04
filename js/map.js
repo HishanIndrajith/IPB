@@ -658,10 +658,25 @@ function definePath(){
             if(count==2){
                 console.log(coordArr);
                 let request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    let loadingModal = $('#loading-path-modal');
+                    loadingModal.modal({
+                            backdrop: 'static',
+                            keyboard: false
+                        });
+                    if (request.readyState === 4  && request.status === 200) {
+                      let path = JSON.parse(request.responseText);
+                      L.geoJSON(path).addTo(map);
+                      loadingModal.modal('hide');
+
+                    }
+                  }
                 request.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield +"/least-cost-path?start="+coordArr[0]+"&destination="+coordArr[1], true);
                 request.send();
+            
             }
           });
+          
     };
    
     // map.on('click', function(ev){
