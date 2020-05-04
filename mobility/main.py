@@ -11,7 +11,6 @@ from mobility import voronoi
 from mobility import obstacle_family
 from mobility import GetBorder
 from mobility import leastcostpath
-from mobility import Polygonize
 
 
 def init(battlefield, start, destination):
@@ -71,7 +70,9 @@ def init(battlefield, start, destination):
     # least cost path
     start_coord = (float(start[0]), float(start[1]))
     stop_coord = (float(destination[0]), float(destination[1]))
-    lc_path_array = leastcostpath.create_path(trafficability_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
+    lc_path_geojson = leastcostpath.create_path(trafficability_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
+
+    return lc_path_geojson
     # boundaries = GetBorder.get_boundary_points(trafficability_grid)
     # boundaries_edit = np.copy(boundaries)
     # obstaclefamily = obstacle_family.partition_obstacles(boundaries_edit)
@@ -81,9 +82,9 @@ def init(battlefield, start, destination):
     # voronoi_with_roads = np.where(roads_2d == 1, 1, voronoi_array)
     #
     # ArrayToRaster.save_2d_grid_as_raster(boundaries, x1, delta_x1, y1, delta_y1, 'tempfiles' + sep + 'boundaries.tif')
-    ArrayToRaster.save_2d_grid_as_raster(lc_path_array, x1, delta_x1, y1, delta_y1, battlefield_path + 'mobility' + sep + 'path.tif')
-    ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1,
-                                         'mobility' + sep + 'tempfiles' + sep + 'trafficability.tif')
+    # ArrayToRaster.save_2d_grid_as_raster(lc_path_array, x1, delta_x1, y1, delta_y1, battlefield_path + 'mobility' + sep + 'path.tif')
+    # ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1,
+    #                                      'mobility' + sep + 'tempfiles' + sep + 'trafficability.tif')
     # Polygonize.polygonize(battlefield_path + 'mobility' + sep + 'path.tif', battlefield_path + 'mobility' + sep + 'path.geojson')
     # ArrayToRaster.save_2d_grid_as_raster(voronoi_array, x1, delta_x1, y1, delta_y1,
     #                                      battlefield_path + 'mobility' + sep + 'voronoi.tif')
