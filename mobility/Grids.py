@@ -32,14 +32,16 @@ def get_elevation_grid(long_left, lat_bottom, long_right, lat_top):
     gdal.ReprojectImage(clipped, output, reference_projection, reference_projection, gdalconst.GRA_Bilinear)
 
     raster_array_2d = output.ReadAsArray()
+    ele_original_2d = clipped.ReadAsArray()  # TODO remove
     # make it 3d array
     elevation_grid = np.expand_dims(raster_array_2d, axis=2)
+    elevation_original_grid = np.expand_dims(ele_original_2d, axis=2)  # TODO remove
 
     x1 = reference_transform[0]
     delta_x1 = reference_transform[1]
     y1 = reference_transform[3]
     delta_y1 = reference_transform[5]
-    return elevation_grid, x1, delta_x1, y1, delta_y1
+    return elevation_original_grid, elevation_grid, x1, delta_x1, y1, delta_y1  # TODO edit
 
 
 def get_latitude_grid(elevation_array, y1, delta_y1):
