@@ -329,6 +329,7 @@ let map;
 let dataModeOn = false;
 let viewModeOn = false;
 let decisionModeOn = false;
+let decision_layer_group = new L.LayerGroup();
 //load overlays to map
 loadOverlays();
 
@@ -371,6 +372,8 @@ function loadOverlays() {
     let satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
+    // add decision layer to map.
+    decision_layer_group.addTo(map);
 
     // send XHR GET request to overlays endpoint to get all overlays.
     let xHttp = new XMLHttpRequest();
@@ -655,14 +658,17 @@ function showLegend(button, overlayName) {
     button.className += " active";
 }
 
+
 function definePath() {
     pathPanelDisplay(1);
     $("#drawPathModal").modal();
     let popup = L.popup();
     let count = 0;
     let coordArr = [];
+
     map.on('click', function (ev) {
         if (decisionModeOn) {
+            decision_layer_group.clearLayers();
             count += 1;
             pathPanelDisplay(count);
             if (count === 2 || count === 3) {
@@ -689,8 +695,9 @@ function definePath() {
                         keyboard: false
                     });
                     if (request.readyState === 4 && request.status === 200) {
-                        let path = JSON.parse(request.responseText);
-                        L.geoJSON(path).addTo(map);
+                        let routes = JSON.parse(request.responseText);
+                        let routes_layer = L.geoJSON(routes);
+                        decision_layer_group.addLayer(routes_layer);
                         loadingModal.modal('hide');
                     } else if (this.readyState === 4 && request.status === 400) {
                         setTimeout(() => {
