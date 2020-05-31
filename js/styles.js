@@ -74,3 +74,18 @@ function controllerOverlayStyleSet() {
         }
     }
 }
+
+function pathPanelDisplay(state) {
+    let pathPanel = document.getElementById('pathPanel');
+    if(state === 1){
+        pathPanel.innerText = 'Mark Starting Point';
+        pathPanel.style.visibility = "visible";
+    }
+    else if(state === 2){
+        pathPanel.innerText = 'Mark Destination Point';
+    }
+    else if(state === 3){
+        pathPanel.style.visibility = "hidden";
+    }
+
+}

@@ -279,7 +279,8 @@ overlaystyles = {
 };
 
 let mainMapHTML = "<div id=\"mapId\">\n" +
-    "    <div id=\"modeSelection\">\n" +
+    "   <div id=\"pathPanel\">Mark Starting Point</div>" +
+    "   <div id=\"modeSelection\">\n" +
     "        <div>MODES</div>\n" +
     "        <button type=\"button\" id=\"viewBtn\" onclick=\"viewMode()\">\n" +
     "            VIEW <i class=\"fas fa-minus\"></i>\n" +
@@ -290,8 +291,8 @@ let mainMapHTML = "<div id=\"mapId\">\n" +
     "        <button type=\"button\" id=\"dataBtn\" onclick=\"dataMode()\">\n" +
     "            DATA <i class=\"fas fa-minus\"></i>\n" +
     "        </button>\n" +
-    "        <button type=\"button\" id=\"pathBtn\" onclick=\"pathMode()\">\n" +
-    "            PATH <i class=\"fas fa-minus\"></i>\n" +
+    "        <button type=\"button\" id=\"decisionBtn\" onclick=\"decisionMode()\">\n" +
+    "            DECISIONS <i class=\"fas fa-minus\"></i>\n" +
     "        </button>\n" +
     "    </div>\n" +
     "    <div id=\"legend\">\n" +
@@ -314,6 +315,11 @@ let mainMapHTML = "<div id=\"mapId\">\n" +
     "            <img alt=\"legend\" src=\"img/legend_vegetation.png\">\n" +
     "        </div>\n" +
     "    </div>\n" +
+    "    <div id=\"decisions\">\n" +
+    "        <div>DECISIONS</div>\n" +
+    "        <button type=\"button\" id=\"pathBtn\" onclick=\"definePath()\">Routes</button>\n" +
+    "        <button type=\"button\" id=\"eaBtn\" >Engagement_Areas</button>\n" +
+    "    </div>\n" +
     "</div>";
 
 //get battlefield name
@@ -322,12 +328,13 @@ let lastDrawnShapeGeoJson;
 let map;
 let dataModeOn = false;
 let viewModeOn = false;
+let decisionModeOn = false;
 //load overlays to map
 loadOverlays();
 
 
 function loadOverlays() {
-    if(battlefield === undefined) {
+    if (battlefield === undefined) {
         document.getElementById('parent-main-map').innerHTML = '<div id="mapId" style="background: linear-gradient(180deg, rgba(1,18,21,1) 0%, rgba(2,34,39,1) 75%, rgba(4,43,51,1) 100%);" ></div>';
         document.getElementById('logo-animation').style.visibility = 'visible';
         return;
@@ -392,11 +399,11 @@ function loadOverlays() {
                                             .setContent(depth_form)
                                             .openOn(map);
                                         setTimeout(() => {
-                                             let delete_depth_button = document.getElementById('delete_water_depth').getElementsByTagName('button')[0];
+                                            let delete_depth_button = document.getElementById('delete_water_depth').getElementsByTagName('button')[0];
                                             delete_depth_button.onclick = function () {
                                                 showWaterDataDialog(feature, overlay.properties, "WATER", [], null, e.latlng);
                                             };
-                                        },500);
+                                        }, 500);
                                     } else if (viewModeOn) {
                                         let popup = L.popup();
                                         let depth_form = "<a>Lat : " + e.latlng.lat + "</a><br>" +
@@ -444,20 +451,20 @@ function loadOverlays() {
                                 .setContent(depth_form)
                                 .openOn(map);
 
-                             setTimeout(() => {
-                                    let water_depth_div = document.getElementById('water_depth');
-                                    let depth_select = water_depth_div.getElementsByTagName('select')[0];
-                                    let depth_button = water_depth_div.getElementsByTagName('button')[0];
-                                    depth_button.onclick = function () {
-                                           showWaterDataDialog(e.layer.feature, overlay.properties, "WATER", e.latlng, depth_select.value, []);
-                                    };
-                             },500);
+                            setTimeout(() => {
+                                let water_depth_div = document.getElementById('water_depth');
+                                let depth_select = water_depth_div.getElementsByTagName('select')[0];
+                                let depth_button = water_depth_div.getElementsByTagName('button')[0];
+                                depth_button.onclick = function () {
+                                    showWaterDataDialog(e.layer.feature, overlay.properties, "WATER", e.latlng, depth_select.value, []);
+                                };
+                            }, 500);
                         } else if (overlay.name === 'buildings') {
                             showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "BUILDING");
                         } else if (overlay.name === 'roads')
-                            showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "VEGETATION");
+                            showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "ROADS");
                         else if (overlay.name === 'vegetation')
-                            showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "ROAD");
+                            showBuildingRoadsVegetationDataDialog(e.layer.feature, overlay.properties, overlay.name, "VEGETATION");
 
                     } else if (viewModeOn) {
                         let popup = L.popup();
@@ -488,7 +495,7 @@ function loadOverlays() {
             controllerStyleSet();
             loadDrawerToolBox(map);
             initiateModeSelector();
-        }else if(this.readyState === 4)
+        } else if (this.readyState === 4)
             showErrorsMessage("LOAD ERROR");
     };
     xHttp.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield + "/overlays", true);
@@ -504,7 +511,7 @@ function setMapBounds() {
                 [bounds.top, bounds.left],
                 [bounds.bottom, bounds.right]
             ]);
-        }else if(this.readyState === 4)
+        } else if (this.readyState === 4)
             showErrorsMessage("LOAD ERROR");
     };
     request.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield, true);
@@ -572,7 +579,9 @@ function getBattlefieldName() {
 let viewBtn;
 let drawBtn;
 let dataBtn;
+let decisionBtn;
 let legend;
+let decision_panel;
 let tools;
 let toolBar;
 
@@ -581,8 +590,9 @@ function initiateModeSelector() {
     viewBtn = document.getElementById('viewBtn');
     drawBtn = document.getElementById('drawBtn');
     dataBtn = document.getElementById('dataBtn');
-    pathBtn = document.getElementById('pathBtn');
+    decisionBtn = document.getElementById('decisionBtn');
     legend = document.getElementById('legend');
+    decision_panel = document.getElementById('decisions');
     tools = document.getElementById('tools');
     toolBar = document.getElementsByClassName('leaflet-draw-toolbar')[0];
     //select default mode
@@ -590,36 +600,43 @@ function initiateModeSelector() {
 }
 
 function viewMode() {
-    modeStyleSet(viewBtn, drawBtn, dataBtn, pathBtn);
+    modeStyleSet(viewBtn, drawBtn, dataBtn, decisionBtn);
     legend.style.visibility = "visible";
     toolBar.style.visibility = "hidden";
+    decision_panel.style.visibility = "hidden";
     dataModeOn = false;
     viewModeOn = true;
+    decisionModeOn = false;
 }
 
 function drawMode() {
-    modeStyleSet(drawBtn, viewBtn, dataBtn, pathBtn);
+    modeStyleSet(drawBtn, viewBtn, dataBtn, decisionBtn);
     legend.style.visibility = "hidden";
     toolBar.style.visibility = "visible";
+    decision_panel.style.visibility = "hidden";
     dataModeOn = false;
     viewModeOn = false;
+    decisionModeOn = false;
 }
 
 function dataMode() {
-    modeStyleSet(dataBtn, drawBtn, viewBtn, pathBtn);
+    modeStyleSet(dataBtn, drawBtn, viewBtn, decisionBtn);
     legend.style.visibility = "hidden";
     toolBar.style.visibility = "hidden";
+    decision_panel.style.visibility = "hidden";
     dataModeOn = true;
     viewModeOn = false;
+    decisionModeOn = false;
 }
 
-function pathMode() {
-    modeStyleSet(pathBtn, drawBtn, viewBtn, dataBtn);
+function decisionMode() {
+    modeStyleSet(decisionBtn, drawBtn, viewBtn, dataBtn);
     legend.style.visibility = "hidden";
     toolBar.style.visibility = "hidden";
+    decision_panel.style.visibility = "visible";
     dataModeOn = false;
     viewModeOn = false;
-    definePath();
+    decisionModeOn = true;
 }
 
 // Legend
@@ -638,47 +655,67 @@ function showLegend(button, overlayName) {
     button.className += " active";
 }
 
-function definePath(){
+function definePath() {
+    pathPanelDisplay(1);
     $("#drawPathModal").modal();
-    document.getElementById('path_ok').onclick = function () {
-        var popup = L.popup();
-        count = 0;
-        var coordArr=[];
-        map.on('click', function(ev){
+    let popup = L.popup();
+    let count = 0;
+    let coordArr = [];
+    map.on('click', function (ev) {
+        if (decisionModeOn) {
             count += 1;
-            if(count<=2){
-                console.log(count);
-                console.log(ev.latlng);
+            pathPanelDisplay(count);
+            if (count === 2 || count === 3) {
                 coordArr.push(ev.latlng.lng + ', ' + ev.latlng.lat);
                 popup
                     .setLatLng(ev.latlng)
                     .setContent("Your coordinates recorded " + ev.latlng.lat + ',' + ev.latlng.lng)
                     .openOn(map);
             }
-            if(count==2){
-                console.log(coordArr);
+            if (count === 3) {
+                map.off('click');
+                pathPanelDisplay(3);
+                let layer_inputs = document.getElementsByClassName('leaflet-control-layers-selector');
+                let is_building = layer_inputs[2].checked ? 1 : 0;
+                let is_elevation = layer_inputs[3].checked ? 1 : 0;
+                let is_roads = layer_inputs[4].checked ? 1 : 0;
+                let is_vegetation = layer_inputs[5].checked ? 1 : 0;
+                let is_water = layer_inputs[6].checked ? 1 : 0;
                 let request = new XMLHttpRequest();
-                request.onreadystatechange = function() {
+                request.onreadystatechange = function () {
                     let loadingModal = $('#loading-path-modal');
                     loadingModal.modal({
-                            backdrop: 'static',
-                            keyboard: false
-                        });
-                    if (request.readyState === 4  && request.status === 200) {
-                      let path = JSON.parse(request.responseText);
-                      L.geoJSON(path).addTo(map);
-                      loadingModal.modal('hide');
-
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    if (request.readyState === 4 && request.status === 200) {
+                        let path = JSON.parse(request.responseText);
+                        L.geoJSON(path).addTo(map);
+                        loadingModal.modal('hide');
+                    } else if (this.readyState === 4 && request.status === 400) {
+                        setTimeout(() => {
+                            loadingModal.modal('hide');
+                        }, 1000);
+                        showErrorsMessage("OUT OF BORDER");
+                    } else if (this.readyState === 4) {
+                        setTimeout(() => {
+                            loadingModal.modal('hide');
+                        }, 1000);
+                        showErrorsMessage("COMMINICATION ERROR");
                     }
-                  }
-                request.open("GET", "http://127.0.0.1:8082/battlefields/" + battlefield +"/least-cost-path?start="+coordArr[0]+"&destination="+coordArr[1], true);
+                };
+                request.open("GET", "http://127.0.0.1:8082/battlefields/" +
+                    battlefield + "/least-cost-path?start=" + coordArr[0] + "&destination=" + coordArr[1] +
+                    "&building=" + is_building + "&elevation=" + is_elevation +
+                    "&roads=" + is_roads + "&vegetation=" + is_vegetation + "&water=" + is_water, true);
                 request.send();
-            
             }
-          });
-          
-    };
-   
+        }else {
+            map.off('click');
+            pathPanelDisplay(3);
+        }
+    });
+
     // map.on('click', function(ev){
     //     map.addEventListener('mousemove', showCoordinates);
     //     var latlng = map.mouseEventToLatLng(ev.originalEvent);
@@ -748,7 +785,7 @@ function saveOverlay(request_type, overlayName, geojsonFeature) {
             showSuccessMessage(success_message);
             //reload the screen
             loadOverlays();
-        }else if(this.readyState === 4)
+        } else if (this.readyState === 4)
             showErrorsMessage("UNSUCCESSFUL");
     };
     request.open(request_type, url, true);
@@ -764,7 +801,7 @@ function deleteOverlay(overlayName, id) {
             showSuccessMessage("DELETE SUCCESSFUL");
             //reload the screen
             loadOverlays();
-        }else if(this.readyState === 4)
+        } else if (this.readyState === 4)
             showErrorsMessage("UNSUCCESSFUL");
     };
     request.open("DELETE", url, true);
@@ -774,22 +811,22 @@ function deleteOverlay(overlayName, id) {
 function createNewBattlefield(json_body) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function () {
-       let logoAnimation = $('#logo-animation');
-       logoAnimation.hide();
-       let loadingModal = $('#loading-modal');
-       loadingModal.modal({
+        let logoAnimation = $('#logo-animation');
+        logoAnimation.hide();
+        let loadingModal = $('#loading-modal');
+        loadingModal.modal({
             backdrop: 'static',
             keyboard: false
         });
         if (this.readyState === 4 && this.status === 201) {
-            window.open("map.html?battlefield="+json_body.name, "_self");
-        }else if(this.readyState === 4){
+            window.open("map.html?battlefield=" + json_body.name, "_self");
+        } else if (this.readyState === 4) {
             loadingModal.modal('hide');
             logoAnimation.show();
             showErrorsMessage("UNSUCCESSFUL");
         }
     };
-    request.open("POST", "http://127.0.0.1:8082/battlefields" , true);
+    request.open("POST", "http://127.0.0.1:8082/battlefields", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(JSON.stringify(json_body));
 }
@@ -882,28 +919,28 @@ function getFormHTML(layer, properties) {
     let formHTML = "";
     let propertyListOptions = properties['attributes_options'];
     for (let property in propertyListOptions) {
-        if(propertyListOptions.hasOwnProperty(property)){
+        if (propertyListOptions.hasOwnProperty(property)) {
             let propertyName = propertyListOptions[property].name;
-        let optionElementHTML = "<a>" + propertyName + "</a>" +
-            "<select id=\"" + propertyName.replace(/\s/g, '_') + "\" class=\"form-control\">";
-        let optionList = propertyListOptions[property].options;
-        for (let option in optionList) {
-            if(optionList.hasOwnProperty(option)){
-                let optionName = optionList[option];
-                let selectedWord = "";
-                if (layer.properties[propertyName] === optionName)
-                    selectedWord = "selected";
-                let optionHTML = "<option value=\"" + optionName + "\" " + selectedWord + ">" + optionName + "</option>";
-                optionElementHTML += optionHTML;
+            let optionElementHTML = "<a>" + propertyName + "</a>" +
+                "<select id=\"" + propertyName.replace(/\s/g, '_') + "\" class=\"form-control\">";
+            let optionList = propertyListOptions[property].options;
+            for (let option in optionList) {
+                if (optionList.hasOwnProperty(option)) {
+                    let optionName = optionList[option];
+                    let selectedWord = "";
+                    if (layer.properties[propertyName] === optionName)
+                        selectedWord = "selected";
+                    let optionHTML = "<option value=\"" + optionName + "\" " + selectedWord + ">" + optionName + "</option>";
+                    optionElementHTML += optionHTML;
+                }
             }
-        }
-        optionElementHTML = optionElementHTML + "</select>";
-        formHTML += optionElementHTML;
+            optionElementHTML = optionElementHTML + "</select>";
+            formHTML += optionElementHTML;
         }
     }
     let propertyListDirect = properties['attributes_direct'];
     for (let property in propertyListDirect) {
-        if(propertyListDirect.hasOwnProperty(property)){
+        if (propertyListDirect.hasOwnProperty(property)) {
             let propertyName = propertyListDirect[property].name;
             let inputType = propertyListDirect[property].type;
             let inputElementHTML = "<a>" + propertyName + "</a>" +
@@ -968,9 +1005,9 @@ function showNewMapWindow() {
                 },
                 circlemarker: false,
                 circle: false,
-                marker:false,
-                polygon:false,
-                polyline:false
+                marker: false,
+                polygon: false,
+                polyline: false
             },
             edit: {
                 "poly": {"allowIntersection": false},
@@ -993,7 +1030,7 @@ function showNewMapWindow() {
             drawnItems.addLayer(e.layer);
         });
         map2.on('draw:drawstart', function () {
-            if(old_layer !== null)
+            if (old_layer !== null)
                 drawnItems.removeLayer(old_layer);
         });
     }, 500);
@@ -1004,14 +1041,14 @@ function showNewMapWindow() {
 
     document.getElementById('save_new_map').onclick = function () {
         let name = document.getElementById("battlefield-name").value;
-        if(name.trim() === "" ||  coords === null){
+        if (name.trim() === "" || coords === null) {
             showErrorsMessage("INPUTS ARE INCORRECT")
-        }else{
+        } else {
             let jsonBody = {
                 "name": name,
-                "top" : coords.geometry.coordinates[0][1][1],
-                "left" : coords.geometry.coordinates[0][1][0],
-                "bottom" : coords.geometry.coordinates[0][3][1],
+                "top": coords.geometry.coordinates[0][1][1],
+                "left": coords.geometry.coordinates[0][1][0],
+                "bottom": coords.geometry.coordinates[0][3][1],
                 "right": coords.geometry.coordinates[0][3][0]
             };
             createNewBattlefield(jsonBody);
@@ -1020,7 +1057,7 @@ function showNewMapWindow() {
 
 }
 
-function showOpenMapWindow(){
+function showOpenMapWindow() {
     let battlefield_selector;
     let request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -1032,7 +1069,7 @@ function showOpenMapWindow(){
             }
             battlefield_selector = document.getElementById('battlefield-select');
             battlefield_selector.innerHTML = element;
-        }else if(this.readyState === 4)
+        } else if (this.readyState === 4)
             showErrorsMessage("SERVER NOT FOUND");
     };
     request.open("GET", "http://127.0.0.1:8082/battlefields", true);
@@ -1040,7 +1077,7 @@ function showOpenMapWindow(){
     request.send();
 
     document.getElementById('open_map').onclick = function () {
-        window.open("map.html?battlefield="+battlefield_selector.value, "_self");
+        window.open("map.html?battlefield=" + battlefield_selector.value, "_self");
     };
 }
 

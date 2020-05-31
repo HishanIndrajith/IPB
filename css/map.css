@@ -206,6 +206,48 @@ nav {
     margin-left: 7px;
 }
 
+/* Decision Panel*/
+#decisions {
+    height: auto;
+    width: 150px;
+    background-color: #0f2b39;
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 10px;
+    border: 3px solid #a4ead1 !important;
+    font-family: 'tekomedium', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    z-index: 1000;
+    visibility: hidden;
+}
+
+#decisions div {
+    margin: 8px;
+    background-color: #125457;
+    color: #b4ffda;
+    text-align: center;
+}
+
+#decisions button {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    background-color: #3b1313;
+    color: #368e95;
+    width: 128px;
+    border: 2px solid #a4ead1 !important;
+    text-align: center;
+}
+
+#decisions button i {
+    color: #27666b
+}
+
+#decisions button:hover {
+    background-color: #161714;
+}
 
 /*Modals*/
 /*Overlay type selector modal*/
@@ -517,7 +559,7 @@ nav {
     text-shadow: 0 0 10px #2fdfe6;
 }
 
-#loading-modal-content h4 i{
+#loading-modal-content h4 i {
     animation: cursor-animation 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
@@ -582,9 +624,10 @@ nav {
     width: 100%;
     z-index: 9999999;
 }
+
 /*logo-animation*/
 
-#main_screen{
+#main_screen {
     background-color: #022329;
 }
 
@@ -595,7 +638,8 @@ nav {
     text-align: center;
     visibility: hidden;
 }
-#logo-animation img{
+
+#logo-animation img {
     height: auto;
     width: 30vw;
     margin-top: calc(30vh - 70px);
@@ -603,17 +647,36 @@ nav {
     filter: drop-shadow(0 0 5px #63d1da);
     animation: logo-animation 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
+
 @keyframes logo-animation {
     0% {
         opacity: 0.3;
     }
-    30%{
+    30% {
         opacity: 0.5;
     }
-    40%{
+    40% {
         opacity: 0.7;
     }
     50%, 100% {
         opacity: 1;
     }
+}
+
+/*path panel*/
+#pathPanel {
+    height: 50px;
+    width: 400px;
+    position: absolute;
+    margin-top: 3px;
+    margin-left: calc(50vw - 200px);
+    font-family: 'tekomedium', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    z-index: 1000;
+    visibility: hidden;
+    background: rgba(12, 98, 90, 0.8);
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
 }
