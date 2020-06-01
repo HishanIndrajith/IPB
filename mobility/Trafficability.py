@@ -62,7 +62,7 @@ def trafficability_of_cell(cell, is_building, is_elevation, is_roads, is_vegetat
         resistivity_of_cell = elevation + resistivity_road
     elif bridge:  # bridge must be considered even if road not needed
         resistivity_of_cell = elevation + resistivity_bridge
-    elif is_building == 1 and building == 1:  # building on cell
+    elif is_building == 1 and 1 <= building <= 4:  # building on cell
         resistivity_of_cell = resistivity_of_cell + resistivity_building
     elif is_water == 1 and water == 1:  # water on cell
         resistivity_of_cell = resistivity_of_cell + resistivity_water

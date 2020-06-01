@@ -17,6 +17,7 @@ from mobility import leastcostpath
 from mobility import mydijkistra
 from mobility.kshortest import kshortest
 from mobility import IndependentRoutes
+from mobility.threats import threats
 
 
 def is_withing_border(point, borders):
@@ -105,6 +106,8 @@ def init(battlefield, start, destination, is_building, is_elevation, is_roads, i
                                          'mobility' + sep + 'tempfiles' + sep + 'trafficability.tif')
     ArrayToRaster.save_2d_grid_as_raster(restricted_grid, x1, delta_x1, y1, delta_y1,
                                          'mobility' + sep + 'tempfiles' + sep + 'restricted_grid.tif')
+    # threat grid
+    enemy_building_threat = threats.get_enemy_threat_range_grid(building_grid)
     # return lc_path_geojson
     return indep_paths_geojson
     # boundaries = GetBorder.get_boundary_points(trafficability_grid)
