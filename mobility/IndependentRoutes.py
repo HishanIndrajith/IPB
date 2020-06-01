@@ -1,7 +1,7 @@
 import copy
 from mobility import leastcostpath
 import numpy as np
-from mobility.threats import threat
+from mobility.threats import ChokePoints
 from skimage.graph import route_through_array
 
 
@@ -40,7 +40,7 @@ def choke_point_based_shortest_paths(trafficability_grid, restricted_grid, x1, y
     limit = max_factor * lc_cost
     start = lc_path[0]
     end = lc_path[len(lc_path) - 1]
-    choke_point_set = threat.get_choke_points(restricted_grid, lc_path)
+    choke_point_set = ChokePoints.get_choke_points(restricted_grid, lc_path)
     while len(choke_point_set) != 0:
         print(lc_cost, limit)
         choke_point_sets_inv = np.array(choke_point_set).T
@@ -49,7 +49,7 @@ def choke_point_based_shortest_paths(trafficability_grid, restricted_grid, x1, y
         trafficability_grid_copy[end] = trafficability_grid[end]
         lc_path, lc_cost = leastcostpath.create_path(trafficability_grid_copy, x1, y1, delta_x1, delta_y1, start_coord,
                                                      stop_coord)
-        choke_point_set = threat.get_choke_points(restricted_grid, lc_path)
+        choke_point_set = ChokePoints.get_choke_points(restricted_grid, lc_path)
         if lc_cost > limit or len(choke_point_set) == 0:
             break
         paths.append((copy.copy(lc_path), copy.copy(lc_cost)))

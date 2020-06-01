@@ -9,7 +9,7 @@ from mobility import ArrayToRaster
 from mobility import Trafficability
 from mobility import Rasterize
 from mobility import Tools
-from mobility.threats import threat
+from mobility.threats import ChokePoints
 from mobility import voronoi
 from mobility import obstacle_family
 from mobility import GetBorder
