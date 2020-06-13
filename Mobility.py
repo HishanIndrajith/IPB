@@ -22,4 +22,4 @@ class Mobility(Resource):
                          int(water))
         if path is None:
             return "points out of border", 400
-        return json.loads(path), {'Access-Control-Allow-Origin': '*'}
+        return path, {'Access-Control-Allow-Origin': '*'}

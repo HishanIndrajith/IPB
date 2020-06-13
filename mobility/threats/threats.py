@@ -155,4 +155,5 @@ def get_enemy_threat_range_grid(building_grid, vegetation_grid, elevation_grid):
             column_id = column_id + 1
         row_id = row_id + 1
     enemy_threat_range_grid = np.where((building_grid_2d == 1) & (enemy_threat_range_grid < max_range_of_threat), max_range_of_threat, enemy_threat_range_grid)
-    return enemy_threat_range_grid
+
+    return enemy_threat_range_grid / 3.3
