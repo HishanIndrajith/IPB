@@ -47,6 +47,7 @@ def init(battlefield, start, destination, is_building, is_elevation, is_roads, i
     latitude_grid = Grids.get_latitude_grid(elevation_grid, y1, delta_y1)
     # get longitude grid that contain longitude of top left point of each grid cell
     longitude_grid = Grids.get_longitude_grid(elevation_grid, x1, delta_x1)
+
     # joint latitude, longitude and elevation grids to get level 2 combined array of grids. shape = (X,Y,3)
     level_1_combined_array = np.concatenate((latitude_grid, longitude_grid), axis=2)
     level_2_combined_array = np.concatenate((level_1_combined_array, elevation_grid), axis=2)
@@ -95,21 +96,24 @@ def init(battlefield, start, destination, is_building, is_elevation, is_roads, i
     start_coord = (float(start[0]), float(start[1]))
     stop_coord = (float(destination[0]), float(destination[1]))
     # lc_path, lc_cost = leastcostpath.create_path(trafficability_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
-    lc_paths= IndependentRoutes.get_independent_shortest_paths(trafficability_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
+    lc_paths = IndependentRoutes.get_independent_shortest_paths(trafficability_grid, restricted_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
     # lc_paths = IndependentShortestPaths.choke_point_based_shortest_paths(trafficability_grid, restricted_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord)
     # choke_point_sets = threat.get_choke_points(restricted_grid, lc_path)
     # lc_path_geojson = Tools.path_to_geo_json(lc_path, lc_cost, x1, y1, delta_x1, delta_y1)
     # lc_choke_points_geojson = Tools.path_set_to_geo_json(choke_point_sets, x1, y1, delta_x1, delta_y1)
-    indep_paths_geojson = Tools.path_set_to_geo_json(lc_paths, x1, y1, delta_x1, delta_y1)
+    # indep_paths_geojson = Tools.path_set_to_geo_json(lc_paths, x1, y1, delta_x1, delta_y1)
     # print(lc_choke_points_geojson)
     ArrayToRaster.save_2d_grid_as_raster(trafficability_grid, x1, delta_x1, y1, delta_y1,
                                          'mobility' + sep + 'tempfiles' + sep + 'trafficability.tif')
     ArrayToRaster.save_2d_grid_as_raster(restricted_grid, x1, delta_x1, y1, delta_y1,
                                          'mobility' + sep + 'tempfiles' + sep + 'restricted_grid.tif')
     # threat grid
-    enemy_building_threat = threats.get_enemy_threat_range_grid(building_grid)
+    enemy_building_threat = threats.get_enemy_threat_range_grid(building_grid, vegetation_grid, elevation_grid)
+    ArrayToRaster.save_2d_grid_as_raster(enemy_building_threat, x1, delta_x1, y1, delta_y1,
+                                         'mobility' + sep + 'tempfiles' + sep + 'threat_border.tif')
+    paths_with_threats = Tools.add_threat_to_paths(lc_paths, enemy_building_threat, x1, y1, delta_x1, delta_y1)
     # return lc_path_geojson
-    return indep_paths_geojson
+    return paths_with_threats
     # boundaries = GetBorder.get_boundary_points(trafficability_grid)
     # boundaries_edit = np.copy(boundaries)
     # obstaclefamily = obstacle_family.partition_obstacles(boundaries_edit)

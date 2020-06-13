@@ -5,7 +5,7 @@ from mobility.threats import ChokePoints
 from skimage.graph import route_through_array
 
 
-def get_independent_shortest_paths(trafficability_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord):
+def get_independent_shortest_paths(trafficability_grid, restricted_grid, x1, y1, delta_x1, delta_y1, start_coord, stop_coord):
     max_factor = 5
     paths = []
     trafficability_grid_copy = copy.deepcopy(trafficability_grid)
@@ -15,14 +15,15 @@ def get_independent_shortest_paths(trafficability_grid, x1, y1, delta_x1, delta_
     limit = max_factor * lc_cost
     start = lc_path[0]
     end = lc_path[len(lc_path) - 1]
-
+    non_choke_point_set = ChokePoints.non_choke_points(restricted_grid, lc_path)
     while True:
-        lc_path_inv = np.array(lc_path).T
+        lc_path_inv = np.array(non_choke_point_set).T
         trafficability_grid_copy[lc_path_inv[0], lc_path_inv[1]] = 100000
         trafficability_grid_copy[start] = trafficability_grid[start]
         trafficability_grid_copy[end] = trafficability_grid[end]
         lc_path, lc_cost = leastcostpath.create_path(trafficability_grid_copy, x1, y1, delta_x1, delta_y1, start_coord,
                                                      stop_coord)
+        non_choke_point_set = ChokePoints.non_choke_points(restricted_grid, lc_path)
         if lc_cost > limit:
             break
         paths.append(copy.copy(lc_path))

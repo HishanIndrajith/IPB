@@ -49,6 +49,38 @@ def get_choke_points(restricted_grid, path):
     return chokes_point_set  # todo decide set or sets
 
 
+def non_choke_points(restricted_grid, path):
+    # back_cell - front_cell -->
+    front_cell = None
+    back_cell = None
+    non_chokes_point_set = []
+    for cell in path:
+        back_cell = front_cell
+        front_cell = cell
+        if back_cell is not None and front_cell is not None:
+            # get two displacements
+            v_d = front_cell[0] - back_cell[0]  # vertical displacement
+            h_d = front_cell[1] - back_cell[1]  # horizontal displacement
+            # get direction type
+            directions = None
+            is_diagonal = False
+            if (abs(h_d) - abs(v_d)) == 1:
+                directions = (1, 0, -1, 0)
+            elif (abs(h_d) - abs(v_d)) == -1:
+                directions = (0, 1, 0, -1)
+            elif (h_d * v_d) == 1:
+                directions = (1, -1, -1, 1)
+                is_diagonal = True
+            elif (h_d * v_d) == -1:
+                directions = (1, 1, -1, -1)
+                is_diagonal = True
+            # start scanning two sides
+            is_choke, len1, len2 = scan(restricted_grid, back_cell, directions, is_diagonal)
+            if not is_choke:
+                non_chokes_point_set.append(back_cell)
+    return non_chokes_point_set
+
+
 def scan(restricted_grid, cell, directions, is_diagonal):
     restricted_1_found = False
     restricted_1_distance = 0
