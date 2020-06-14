@@ -696,9 +696,104 @@ function definePath() {
                     });
                     if (request.readyState === 4 && request.status === 200) {
                         let routes = JSON.parse(request.responseText);
-                        let routes_layer = L.geoJSON(routes);
-                        decision_layer_group.addLayer(routes_layer);
+                        // console.log(routes);
+                        // let routes_layer = L.geoJSON(routes);
+                        
+                        // decision_layer_group.addLayer(routes_layer);
                         loadingModal.modal('hide');
+                        routes.forEach(route=>{
+                              var group = L.featureGroup()
+                                        .bindPopup('Hello world!')
+                                        .addTo(map);
+                            route[0].forEach(function(coord,i){
+                                if(i+1<route[0].length){
+                                    current = [coord[1],coord[0]];
+                                    next = [route[0][i+1][1],route[0][i+1][0]];
+                                    console.log(current);
+                                    var l =  L.polyline([current,next]).addTo(group);
+                                }
+                            });  
+                        });
+                        
+                        
+                        // routes_layer.eachLayer(l => {
+                        //   var latlngs = l.getLatLngs();
+                        // //   console.log(l);
+                        // //   var group = L.featureGroup()
+                        // //                 .bindPopup('Hello world!')
+                        // //                 .addTo(map);
+
+                                        
+                        
+                        // latlngs.forEach(function(latlng, idx){
+
+                        //     // var r = 0;          // Random between 0-255
+                        //     // var g = 127;          // Random between 0-255
+                        //     // var b = 0;
+                        //     // var colors=[];
+                        //     // if(idx<255){
+                        //     //     r=r+1;
+                        //     // }
+                        //     // else{
+                        //     //     r=255;
+                        //     // }            
+                            
+                        //     // var rgb = 'rgb(' + r + ',' + g + ',' + b + ')';
+                        //     // colors.push(rgb);
+                                        
+                                
+                            //     if(idx+1 < latlngs.length ){
+                                    
+                            //          // Collect all to a string
+                            //         var letters = '0123456789ABCDEF';
+                            //         var color = '#';
+                            //         for (var i = 0; i < 6; i++) {
+                            //           color += letters[Math.floor(Math.random() * 16)];
+                            //         }
+                            //         console.log(rgb);
+                            //      var l =  L.polyline([latlng,latlngs[idx+1]],{color: colors[idx]}).addTo(group);
+                            //  }
+                        // });
+                        //   });
+
+                        // routes_layer.on('click',function(e){
+                        //     console.log(e);
+                        //     let popup = L.popup();
+                        //     let viewHTML = getViewHTML(e.layer.feature);
+                        //     e.layer.setStyle({color:'red'});
+                        //     popup
+                        //     .setLatLng(e.latlng)
+                        //     .setContent(viewHTML)
+                        //     .openOn(map);
+
+                        // }
+                        // );
+
+                    //     var poly = L.polyline([
+                    //         [7.2542869368421041, 80.59304248157895],
+                    //         [7.2534050842105255, 80.5927155868421],
+                    //         [7.2526050842105255, 80.5914155868421],
+                    //         [7.2518050842105255, 80.5906155868421],
+                    //     ]);//.addTo(mymap);
+                    //     // console.log(poly);
+                      
+                    //     setPolylineColors(poly,['#f00','#ff0','#000']);
+                      
+                      
+                    //     function setPolylineColors(line,colors){
+                      
+                    //       var latlngs = line.getLatLngs();
+                    //       var group = L.featureGroup()
+                    //                     .bindPopup('Hello world!')
+                    //                     .addTo(map);
+                        
+                    //     latlngs.forEach(function(latlng, idx){
+                    //             if(idx+1 < latlngs.length ){
+                    //              var poly =  L.polyline([latlng,latlngs[idx+1]],{color: colors[idx]}).addTo(group);
+                    //          }
+                    //     });
+
+                    //   };
                     } else if (this.readyState === 4 && request.status === 400) {
                         setTimeout(() => {
                             loadingModal.modal('hide');
