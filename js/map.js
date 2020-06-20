@@ -705,12 +705,26 @@ function definePath() {
                               var group = L.featureGroup()
                                         .bindPopup('Hello world!')
                                         .addTo(map);
+                              var r,g,b;
                             route[0].forEach(function(coord,i){
+                                
                                 if(i+1<route[0].length){
+                                    var colorValue=Math.round(coord[2]*38.2);
+                                    // console.log(colorValue);
+                                    if(colorValue<=255){
+                                        r=colorValue;
+                                        g=127;
+                                        b=0;
+                                    }
+                                    else if(colorValue>255&&colorValue<=382){
+                                        r=255;
+                                        g=(382-colorValue);
+                                        b=0;
+                                    }
+                                    console.log(r+","+g+","+b);
                                     current = [coord[1],coord[0]];
                                     next = [route[0][i+1][1],route[0][i+1][0]];
-                                    console.log(current);
-                                    var l =  L.polyline([current,next]).addTo(group);
+                                    var l =  L.polyline([current,next],{color: 'rgb(' + r + ',' + g + ',' + b + ')'}).addTo(group);
                                 }
                             });  
                         });
