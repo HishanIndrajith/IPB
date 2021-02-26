@@ -38,6 +38,7 @@ def format_building_overlay(input_file):
     with open(input_file) as json_file:
         data = json.load(json_file)
         for feature in data['features']:
+            # status
             status = feature['properties']['status']
             if status == 'enemy':
                 feature['properties']['status'] = 1
@@ -47,6 +48,9 @@ def format_building_overlay(input_file):
                 feature['properties']['status'] = 3
             elif status == 'unknown':
                 feature['properties']['status'] = 4
+            # No of stories
+            no_of_stories = int(feature['properties']['No of stories'])
+            feature['properties']['status'] = (feature['properties']['status'] * 1000) + no_of_stories
         json_file.close()
     with open(output_file, 'w') as outfile:
         json.dump(data, outfile)
@@ -68,11 +72,11 @@ def rasterize(origin_x, origin_y, pixel_width, pixel_height, cols, rows, battlef
     layer = data_source.GetLayer()
     driver = gdal.GetDriverByName('GTiff')
     output = temp_files_folder + sep + overlay + '_grid.tif'
-    out_raster = driver.Create(output, cols, rows, 1, gdal.GDT_Byte)
+    out_raster = driver.Create(output, cols, rows, 1, gdal.GDT_Int32)
     out_raster.SetGeoTransform((origin_x, pixel_width, 0, origin_y, 0, pixel_height))
     if overlay == 'vegetation':
         gdal.RasterizeLayer(out_raster, [1], layer, options=["ATTRIBUTE=Vegetation Type"])
-    if overlay == 'buildings':
+    elif overlay == 'buildings':
         gdal.RasterizeLayer(out_raster, [1], layer, options=["ATTRIBUTE=status"])
     else:
         gdal.RasterizeLayer(out_raster, [1], layer, burn_values=[1])

@@ -51,6 +51,8 @@ def get_choke_points(restricted_grid, path):
 
 def non_choke_points(restricted_grid, path):
     # back_cell - front_cell -->
+    r_max = restricted_grid.shape[0]
+    c_max = restricted_grid.shape[1]
     front_cell = None
     back_cell = None
     non_chokes_point_set = []
@@ -75,13 +77,13 @@ def non_choke_points(restricted_grid, path):
                 directions = (1, 1, -1, -1)
                 is_diagonal = True
             # start scanning two sides
-            is_choke, len1, len2 = scan(restricted_grid, back_cell, directions, is_diagonal)
+            is_choke, len1, len2 = scan(restricted_grid, back_cell, directions, is_diagonal, r_max, c_max)
             if not is_choke:
                 non_chokes_point_set.append(back_cell)
     return non_chokes_point_set
 
 
-def scan(restricted_grid, cell, directions, is_diagonal):
+def scan(restricted_grid, cell, directions, is_diagonal, r_max, c_max):
     restricted_1_found = False
     restricted_1_distance = 0
     restricted_2_found = False
@@ -90,10 +92,14 @@ def scan(restricted_grid, cell, directions, is_diagonal):
     distance_step = 1
     if is_diagonal:
         distance_step = math.sqrt(2)
+    current_cell1 = (cell[0], cell[1])
+    current_cell2 = (cell[0], cell[1])
     while distance_travelled <= choke_threshold:
         distance_travelled = distance_travelled + distance_step
-        current_cell1 = (cell[0] + directions[0], cell[1] + directions[1])
-        current_cell2 = (cell[0] + directions[2], cell[1] + directions[3])
+        current_cell1 = (current_cell1[0] + directions[0], current_cell1[1] + directions[1])
+        current_cell2 = (current_cell2[0] + directions[2], current_cell2[1] + directions[3])
+        if not (r_max > current_cell1[0] >= 0 and c_max > current_cell1[1] >= 0 and r_max > current_cell2[0] >= 0 and c_max > current_cell2[1] >= 0):
+            break
         if not restricted_1_found and restricted_grid[current_cell1] == 1:
             restricted_1_found = True
             restricted_1_distance = distance_travelled

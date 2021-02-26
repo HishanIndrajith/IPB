@@ -56,7 +56,7 @@ def path_set_to_geo_json(path_set, x1, y1, delta_x1, delta_y1):
         "type": "FeatureCollection",
         "features": feature_array
     }
-    return json.dumps(json_data)
+    return json_data
 
 
 def add_threat_to_paths(path_set, threat, x1, y1, delta_x1, delta_y1):

@@ -2,7 +2,7 @@ import numpy as np
 import collections
 import math
 import copy
-import json
+import datetime
 
 
 def find_k_shortest_paths(array, s, t, k):
@@ -54,7 +54,6 @@ def find_k_shortest_paths(array, s, t, k):
     changes = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
     while len(temp_path_list) > 0 and count[t] < k:
         current_shortest = shortest_path()
-        print(current_shortest[2])
         temp_path_list.remove(current_shortest)
         current_shortest_coord = current_shortest[0]
         count[current_shortest_coord] = count[current_shortest_coord] + 1
@@ -77,6 +76,7 @@ def coord2pixel_offset(x1, y1, delta_x1, delta_y1, x, y):
 
 def create_path(cost_surface_array, x1, y1, delta_x1, delta_y1, start_coord, stop_coord):
     print('started k-shortest algorithm')
+    a = datetime.datetime.now()
     # coordinates to array index
     start_coord_x = start_coord[0]
     start_coord_y = start_coord[1]
@@ -85,9 +85,13 @@ def create_path(cost_surface_array, x1, y1, delta_x1, delta_y1, start_coord, sto
     stop_coord_x = stop_coord[0]
     stop_coord_y = stop_coord[1]
     stop_index_x, stop_index_y = coord2pixel_offset(x1, y1, delta_x1, delta_y1, stop_coord_x, stop_coord_y)
-    # paths = find_k_shortest_paths(cost_surface_array, (start_index_y, start_index_x), (stop_index_y, stop_index_x), 10)
-    paths = find_k_shortest_paths(cost_surface_array, (82,75), (24, 235), 100)
-    return json.dumps(make_geo_json(paths, x1, y1, delta_x1, delta_y1))
+    paths = find_k_shortest_paths(cost_surface_array, (start_index_y, start_index_x), (stop_index_y, stop_index_x), 10)
+    # paths = find_k_shortest_paths(cost_surface_array, (82,75), (24, 235), 100)
+    # return json.dumps(make_geo_json(paths, x1, y1, delta_x1, delta_y1))
+    b = datetime.datetime.now()
+    print('time taken')
+    print(b - a)
+    return make_geo_json(paths, x1, y1, delta_x1, delta_y1)
 
 
 def make_geo_json(paths, x1, y1, delta_x1, delta_y1):

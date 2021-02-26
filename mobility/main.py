@@ -111,6 +111,7 @@ def init(battlefield, start, destination, is_building, is_elevation, is_roads, i
     enemy_building_threat = threats.get_enemy_threat_range_grid(building_grid, vegetation_grid, elevation_grid)
     ArrayToRaster.save_2d_grid_as_raster(enemy_building_threat, x1, delta_x1, y1, delta_y1,
                                          'mobility' + sep + 'tempfiles' + sep + 'threat_border.tif')
+
     paths_with_threats = Tools.add_threat_to_paths(lc_paths, enemy_building_threat, x1, y1, delta_x1, delta_y1)
     # return lc_path_geojson
     return paths_with_threats

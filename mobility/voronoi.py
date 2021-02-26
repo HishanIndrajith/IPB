@@ -1,5 +1,6 @@
 import numpy as np
 from PIL import Image
+import datetime
 
 
 def voronoi(point_families, shape):
@@ -16,7 +17,6 @@ def voronoi(point_families, shape):
         paraboloid = np.fromfunction(hypot, shape)
         colormap = np.where(paraboloid < depthmap, i + 1, colormap)
         depthmap = np.where(paraboloid < depthmap, paraboloid, depthmap)
-
     return colormap
 
 #
@@ -100,12 +100,16 @@ def border(colormap):
 
 def start(point_families, shape):
     print("start voronoi algorithm")
+    a = datetime.datetime.now()
     voronoi_array = voronoi(point_families, (shape[1], shape[0]))
     # print(points)
     # points = ([10,30],[30,20],[40,40])
     # voronoi_array = voronoi(points, (100,100))
     voronoi_array = np.transpose(voronoi_array)
     border_array = border(voronoi_array)
+    b = datetime.datetime.now()
+    print('time taken')
+    print(b - a)
     return border_array
 
 # def partition_obstacles(grid):

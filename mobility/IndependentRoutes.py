@@ -88,6 +88,8 @@ def remove_section(path, section, array):
 
 
 def cut_point(path, array):
+    r_max = array.shape[0]
+    c_max = array.shape[1]
     max_section = (path[2], path[len(path) - 3], 0)
     sections = []
     threshold = 6
@@ -103,7 +105,7 @@ def cut_point(path, array):
             c = cell[1]
             empty_count = 0
             for [r_change, c_change] in changes:
-                if array[r + r_change, c + c_change] == 100000:
+                if 0 <= (r + r_change) < r_max and 0 <= (c + c_change) < c_max and array[r + r_change, c + c_change] == 100000:
                     empty_count = empty_count + 1
             if not inside_section and empty_count >= threshold:
                 inside_section = True
