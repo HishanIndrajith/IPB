@@ -330,6 +330,24 @@ let dataModeOn = false;
 let viewModeOn = false;
 let decisionModeOn = false;
 let decision_layer_group = new L.LayerGroup();
+let startIcon = L.icon({
+    iconUrl: 'img/start.png',
+    shadowUrl: 'img/shadow.png',
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+let endIcon = L.icon({
+    iconUrl: 'img/end.png',
+    shadowUrl: 'img/shadow.png',
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 //load overlays to map
 loadOverlays();
 
@@ -662,21 +680,24 @@ function showLegend(button, overlayName) {
 function definePath() {
     pathPanelDisplay(1);
     $("#drawPathModal").modal();
-    let popup = L.popup();
     let count = 0;
     let coordArr = [];
-
+    decision_layer_group.clearLayers();
     map.on('click', function (ev) {
         if (decisionModeOn) {
-            decision_layer_group.clearLayers();
             count += 1;
             pathPanelDisplay(count);
             if (count === 2 || count === 3) {
-                coordArr.push(ev.latlng.lng + ', ' + ev.latlng.lat);
-                popup
-                    .setLatLng(ev.latlng)
-                    .setContent("Your coordinates recorded " + ev.latlng.lat + ',' + ev.latlng.lng)
-                    .openOn(map);
+                let lat = ev.latlng.lat;
+                let lng = ev.latlng.lng;
+                coordArr.push(lng + ', ' + lat);
+                if(count === 2) {
+                    let start_point = L.marker([lat, lng], {icon: startIcon});
+                    decision_layer_group.addLayer(start_point);
+                }if(count === 3) {
+                    let end_point = L.marker([lat, lng], {icon: endIcon});
+                    decision_layer_group.addLayer(end_point);
+                }
             }
             if (count === 3) {
                 map.off('click');
@@ -849,7 +870,7 @@ function saveBuildingOverlay() {
             "No of occupants": "unknown",
             "status": "unknown",
             "Material": "unknown",
-            "No of stories": 0
+            "No of stories": 1
         };
         saveOverlay("POST", "buildings", lastDrawnShapeJson)
     }
